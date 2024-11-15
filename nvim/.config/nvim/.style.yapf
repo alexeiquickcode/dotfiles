@@ -1,0 +1,14 @@
+[style]
+based_on_style = google
+dedent_closing_brackets = true
+column_limit = 80
+indent_width = 4
+INDENT_DICTIONARY_VALUE = true
+split_before_logical_operator = true
+spaces_before_comment = 2
+split_complex_comprehension = true
+split_arguments_when_comma_terminated = true
+split_all_comma_separated_values = false
+SPLIT_ALL_TOP_LEVEL_COMMA_SEPARATED_VALUES = false
+SPLIT_BEFORE_ARITHMETIC_OPERATOR = true
+SPLIT_BEFORE_DOT = true
