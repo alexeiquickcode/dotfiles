@@ -51,7 +51,12 @@ return {
 
     vim.keymap.set("n", "<F5>", utils.continue_and_toggle_neotree_if_dap_active)
     vim.keymap.set("n", "<S-F5>", function() dap.terminate() end)
-    vim.keymap.set("n", "<leader>dt", function() dap.terminate() end) -- Shift f5 not working in Kitty
+    vim.keymap.set(
+      "n",
+      "<leader>dt",
+      function() dap.terminate() end, -- Shift f5 not working in Kitty
+      { noremap = true, silent = true, desc = "Dap Terminal" }
+    )
 
     vim.keymap.set("n", "<F10>", function() dap.step_over() end)
     vim.keymap.set("n", "<F11>", function() dap.step_into() end)
