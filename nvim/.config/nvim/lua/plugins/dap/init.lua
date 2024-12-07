@@ -45,7 +45,7 @@ return {
     vim.keymap.set(
       "n",
       "<leader>pv",
-      utils.print_var_under_cursor_nodejs, -- TODO: Make this check the file type so I can extend to javascript
+      utils.print_var_under_cursor_python, -- TODO: Make this check the file type so I can extend to javascript
       { noremap = true, silent = true, desc = "Print Variable" }
     )
 
