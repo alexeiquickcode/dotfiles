@@ -1,6 +1,4 @@
--- utils.lua
 local dap = require "dap"
-local fzf = require "fzf-lua"
 local M = {}
 
 --------------------------------------------------------------------------------
@@ -26,8 +24,8 @@ function M.open_floating_window(buf)
   vim.api.nvim_open_win(buf, true, opts)
 end
 
+-- Create a new buffer and return its ID
 function M.create_buffer()
-  -- Create a new buffer and return its ID
   local buf = vim.api.nvim_create_buf(false, true) -- Create a scratch buffer
   if buf == 0 then error "Buffer creation failed" end
   return buf
@@ -56,34 +54,72 @@ function M.initialize_python_repl_silently()
   dap.repl.execute(initialization_commands)
 end
 
+function M.get_default_window_options()
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
+  local opts = {
+    width = width,
+    height = height,
+    bo = { buftype = "", buflisted = false, bufhidden = "hide", swapfile = false },
+    minimal = false,
+    noautocmd = false,
+    zindex = 2,
+    wo = { winhighlight = "NormalFloat:Normal" },
+    border = "rounded",
+    title = "Pandas (VisiData) DataFrame Viewer",
+    title_pos = "center",
+  }
+  return opts
+end
+
 -- Pandas (DataFramer) Viewer
-function M.print_var_under_cursor_python()
+function M.open_vd_under_cursor()
   local var_name = vim.fn.expand "<cword>"
-  local buf = M.create_buffer()
+  local filetype = vim.bo.filetype
+  local opts = M.get_default_window_options()
 
-  dap.repl.execute("print(" .. var_name .. ")")
-
-  -- Capture DAP REPL output and write to the buffer
-  dap.listeners.after.event_output["print_var_under_cursor"] = function(_, body)
-    if body.category == "stdout" or body.category == "stderr" then
-      local lines = vim.split(body.output, "\n")
-      vim.api.nvim_buf_set_lines(buf, -1, -1, false, lines)
-
-      -- Apply header highlight for the first three lines (the header)
-      for i = 1, 2 do
-        if #lines >= i then
-          vim.api.nvim_buf_add_highlight(buf, -1, "DataFrameHeader", i - 1, 0, -1) -- Header gets its own color
-        end
-      end
-
-      -- Apply alternating row highlights starting from the fourth line (the data)
-      for i = 3, #lines + 1 do
-        local highlight_group = (i % 2 == 0) and "StripedLine2" or "StripedLine1"
-        vim.api.nvim_buf_add_highlight(buf, -1, highlight_group, i - 1, 0, -1)
-      end
-    end
+  if filetype == "python" then
+    -- For Python (Pandas)
+    local python_cmd = var_name .. ".to_csv('/tmp/debug_df.csv')"
+    dap.repl.execute(python_cmd)
+    local terminal_cmd = "vd '/tmp/debug_df.csv'"
+    Snacks.terminal(terminal_cmd, opts)
+  elseif filetype == "javascript" or filetype == "typescript" then
+    -- For JavaScript/TypeScript (Objects)
+    dap.repl.execute("testFn(" .. var_name .. ")")
+    local terminal_cmd = "vd '/tmp/debug_obj.json'"
+    Snacks.terminal(terminal_cmd, opts)
+  else
+    vim.notify("Filetype not supported for Data Viewer", vim.log.levels.ERROR)
   end
-  M.open_floating_window(buf)
+end
+
+-- Types in DataFrame Viewer
+function M.describe_types_in_df_in_vd()
+  local var_name = vim.fn.expand "<cword>"
+  local opts = M.get_default_window_options()
+  local py_cmds = {
+    "element_types = " .. var_name .. ".applymap(type)",
+    "element_types.to_csv('/tmp/debug_df.csv')",
+  }
+  for _, cmd in ipairs(py_cmds) do
+    dap.repl.execute(cmd)
+  end
+  Snacks.terminal("vd /tmp/debug_df.csv", opts)
+end
+
+-- Summarise types in DataFrame
+function M.summarise_types_in_df_in_vd()
+  local var_name = vim.fn.expand "<cword>"
+  local opts = M.get_default_window_options()
+  local py_cmds = {
+    "type_counts = " .. var_name .. ".applymap(type).apply(pd.Series.value_counts)",
+    "type_counts.to_csv('/tmp/debug_df.csv')",
+  }
+  for _, cmd in ipairs(py_cmds) do
+    dap.repl.execute(cmd)
+  end
+  Snacks.terminal("vd /tmp/debug_df.csv", opts)
 end
 
 --------------------------------------------------------------------------------

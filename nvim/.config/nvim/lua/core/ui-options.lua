@@ -1,14 +1,15 @@
 -- Highlight groups for LSP
 vim.cmd [[
   highlight DiagnosticUnderlineError cterm=underline gui=underline guisp=#ff5638
+  highlight DiagnosticUnderlineWarn gui=underline
   highlight NvimDapVirtualText guifg=white gui=bold
 ]]
 
 -- Bufferline HL groups
-vim.cmd([[
+vim.cmd [[
   highlight BufferLineBufferSelected guifg=#ffffff gui=bold,italic
   highlight BufferLineSelectedIcon guifg=#ffffff
-  ]])
+  ]]
 
 -- Current line number yellow
 vim.cmd [[highlight CursorLineNr guifg=#FFFF00]]

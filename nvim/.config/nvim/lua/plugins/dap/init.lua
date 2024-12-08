@@ -45,8 +45,20 @@ return {
     vim.keymap.set(
       "n",
       "<leader>pv",
-      utils.print_var_under_cursor_python, -- TODO: Make this check the file type so I can extend to javascript
+      utils.open_vd_under_cursor,
       { noremap = true, silent = true, desc = "Print Variable" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>pt",
+      utils.describe_types_in_df_in_vd,
+      { noremap = true, silent = true, desc = "Describe Pandas DataFrame Types" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>pd",
+      utils.summarise_types_in_df_in_vd,
+      { noremap = true, silent = true, desc = "Summarise Pandas DataFrame Types" }
     )
 
     vim.keymap.set("n", "<F5>", utils.continue_and_toggle_neotree_if_dap_active)

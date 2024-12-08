@@ -23,8 +23,8 @@ for _, language in ipairs { "typescript", "javascript" } do
       type = "pwa-node",
       request = "launch",
       name = "Launch UAT",
-      runtimeExecutable = "nodemon",
-      runtimeArgs = { "--exec", "NODE_ENV=uat node" },
+      runtimeExecutable = "nodemon", -- Use nodemon for automatic reloads
+      runtimeArgs = { "--exec", "NODE_ENV=uat node --require ./fs-test.js" },
       -- runtimeArgs = { "--exec", "cross-env NODE_ENV=uat node" }, -- Use for windows
       skipFiles = {
         "<node_internals>/**",
