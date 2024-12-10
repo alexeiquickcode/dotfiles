@@ -5,27 +5,20 @@ return {
     "linux-cultist/venv-selector.nvim",
     dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim", "mfussenegger/nvim-dap-python" },
     opts = {
-      -- Your options go here
       name = { "venv", ".venv" },
       auto_refresh = true,
       auto_activate = true,
-      notify_on_update = false,  -- Add this line to disable update notifications
-      auto_select = { ".venv" }, -- Add this line to automatically select a venv if found
+      notify_on_update = false,
+      auto_select = { ".venv" },
     },
     -- event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
     lazy = false,
-    branch = "regexp", -- This is the regexp branch, use this for the new version
+    branch = "regexp", -- NOTE: New version
     keys = {
-      -- Keymap to open VenvSelector to pick a venv.
       { "<leader>vs", "<cmd>VenvSelect<cr>" },
-      -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
       { "<leader>vc", "<cmd>VenvSelectCached<cr>" },
     },
   },
-
-  {
-    "benlubas/molten-nvim",
-  }
 
   -- {
   --   "Willem-J-an/visidata.nvim",
@@ -51,6 +44,4 @@ return {
   --     vim.keymap.set("v", "<f4>", require("visidata").visualize_pandas_df, { desc = "[v]isualize [p]andas df" })
   --   end,
   -- },
-
 }
-

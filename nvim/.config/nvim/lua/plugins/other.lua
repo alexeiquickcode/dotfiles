@@ -182,7 +182,7 @@ return {
     -- this is equivalent to setup({}) function
   },
 
-  {
+  { -- TODO: Replace with Snacks.nvim
     "akinsho/toggleterm.nvim",
     version = "*",
     config = function()

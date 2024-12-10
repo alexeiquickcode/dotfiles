@@ -11,22 +11,20 @@ return {
     {
       "microsoft/vscode-js-debug",
       version = "1.x",
-      build = "npm install && npm run compile vsDebugServerBundle && mv dist out", -- TODO: Get working on windows
-      -- build = function()
-      --   if vim.loop.os_uname().sysname == "Windows_NT" then
-      --     vim.fn.system("npm install && npm run compile vsDebugServerBundle && move dist out")
-      --   else
-      --     vim.fn.system("npm install && npm run compile vsDebugServerBundle && mv dist out")
-      --   end
-      -- end,
+      build = function()
+        if require("utils").is_windows then
+          vim.fn.system "npm install && npm run compile vsDebugServerBundle && move dist out"
+        else
+          vim.fn.system "npm install && npm run compile vsDebugServerBundle && mv dist out"
+        end
+      end,
     },
   },
   config = function()
     local dap = require "dap"
-    -- local dapui = require "dapui"
     local utils = require "plugins.dap.utils"
     local dap_repl = require "dap.repl"
-    require "plugins.dap.dapui"
+    require "plugins.dap.ui"
     require "plugins.dap.python"
     require "plugins.dap.javascript"
 
@@ -43,6 +41,7 @@ return {
       },
     })
 
+    -- DAP Keymaps
     vim.keymap.set(
       "x",
       "<leader>ps",
@@ -58,13 +57,13 @@ return {
     vim.keymap.set(
       "n",
       "<leader>pt",
-      utils.describe_types_in_df_in_vd,
+      utils.describe_python_types_in_df_in_vd,
       { noremap = true, silent = true, desc = "Describe Pandas DataFrame Types" }
     )
     vim.keymap.set(
       "n",
       "<leader>pd",
-      utils.summarise_types_in_df_in_vd,
+      utils.summarise_python_types_in_df_in_vd,
       { noremap = true, silent = true, desc = "Summarise Pandas DataFrame Types" }
     )
 
@@ -120,32 +119,6 @@ return {
 
     dap_repl.commands = vim.tbl_extend("force", dap_repl.commands, {
       p = "<Cmd>lua require('dap.repl').paste()<CR>",
-    })
-
-    ----------------------------------------------------------------------------
-    ---- Dap UI ----------------------------------------------------------------
-    ----------------------------------------------------------------------------
-    -- TODO: Move these to the DAP UI module
-
-    -- Custom highlight group
-    vim.api.nvim_set_hl(0, "DapCurrentLine", { bg = "#FFF9C4", bold = false })
-
-    -- Ensure dap uses the custom highlight group
-    dap.defaults.fallback.terminal_win_cmd = "50vsplit new"
-    vim.fn.sign_define(
-      "DapStopped",
-      { text = "", texthl = "DapCurrentLine", linehl = "DapCurrentLine", numhl = "DapCurrentLine" }
-    )
-
-    -- Function to set keybinding in the DAP REPL console
-    local function set_dap_repl_keymaps()
-      vim.api.nvim_buf_set_keymap(0, "n", "p", "+p", { noremap = true, silent = true })
-    end
-
-    -- Autocommand to set keybinding when entering the DAP REPL buffer
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "dap-repl",
-      callback = set_dap_repl_keymaps,
     })
   end,
 }

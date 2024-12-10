@@ -2,7 +2,7 @@
 vim.cmd [[
   highlight DiagnosticUnderlineError cterm=underline gui=underline guisp=#ff5638
   highlight DiagnosticUnderlineWarn gui=underline
-  highlight NvimDapVirtualText guifg=white gui=bold
+  highlight NvimDapVirtualText guifg=white gui=italic
 ]]
 
 -- Bufferline HL groups
@@ -33,7 +33,7 @@ vim.diagnostic.config {
   signs = false,
 }
 
--- I don't think this works
+-- TODO: I don't think this works
 vim.cmd [[
   highlight dap_ui_layer_hl_20 guifg=#DD97F1
   highlight dap_ui_layer_hl_35 guifg=#DD97F1
@@ -69,6 +69,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Make DAP BREAKPOINTS more visible
 -- Define a custom highlight group for DAP breakpoint marker text
 vim.api.nvim_set_hl(0, "DapUIBreakpoints", { fg = "#5EB7FF", bold = true })
+
+-- Custom highlight group
+vim.api.nvim_set_hl(0, "DapCurrentLine", { bg = "#FFF9C4", bold = false })
+
+-- Ensure dap uses the custom highlight group
+vim.fn.sign_define(
+  "DapStopped",
+  { text = "", texthl = "DapCurrentLine", linehl = "DapCurrentLine", numhl = "DapCurrentLine" }
+)
 
 -- Define the DAP breakpoint sign and link it to the custom highlight group
 vim.fn.sign_define("DapBreakpoint", { text = "B", texthl = "DapUIBreakpoints", linehl = "", numhl = "" })

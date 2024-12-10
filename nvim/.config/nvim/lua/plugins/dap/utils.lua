@@ -1,58 +1,7 @@
 local dap = require "dap"
+local utils = require "utils"
+Snacks = Snacks or {}
 local M = {}
-
---------------------------------------------------------------------------------
----- Buffer Utility Fns --------------------------------------------------------
---------------------------------------------------------------------------------
-
-function M.open_floating_window(buf)
-  local width = math.floor(vim.o.columns * 0.8)
-  local height = math.floor(vim.o.lines * 0.4)
-  local row = math.floor((vim.o.lines - height) / 2)
-  local col = math.floor((vim.o.columns - width) / 2)
-
-  local opts = {
-    style = "minimal",
-    relative = "editor",
-    width = width,
-    height = height,
-    row = row,
-    col = col,
-    border = "rounded",
-  }
-
-  vim.api.nvim_open_win(buf, true, opts)
-end
-
--- Create a new buffer and return its ID
-function M.create_buffer()
-  local buf = vim.api.nvim_create_buf(false, true) -- Create a scratch buffer
-  if buf == 0 then error "Buffer creation failed" end
-  return buf
-end
-
---------------------------------------------------------------------------------
----- Python Display Helpers ----------------------------------------------------
---------------------------------------------------------------------------------
-
-function M.initialize_python_repl_silently()
-  local initialization_commands = [[
-      try:
-          import pandas as pd
-          pd.set_option('display.width', 250)      # Set display width (characters)
-          pd.set_option('display.max_colwidth', 20)
-          pd.set_option('display.max_columns', 12) # Set max number of columns
-          pd.set_option('colheader_justify', 'left')
-          pd.set_option('display.min_rows', 50)    # Set min number of rows
-          pd.set_option('display.max_rows', 80)    # Set max number of rows
-
-      except ImportError:
-          print('Pandas is not installed.')
-      except Exception as e:
-          print(f'An error occurred: {e}')
-  ]]
-  dap.repl.execute(initialization_commands)
-end
 
 function M.get_default_window_options()
   local width = math.floor(vim.o.columns * 0.8)
@@ -72,60 +21,40 @@ function M.get_default_window_options()
   return opts
 end
 
-local function get_temp_path() -- TODO: Move this to a shared module
-  local sysname = vim.loop.os_uname().sysname
-  if sysname == "Windows_NT" then
-    return os.getenv("TEMP") or os.getenv("TMP") or "C:\\Temp"
-  else
-    return os.getenv("TMPDIR") or "/tmp"
-  end
-end
+--------------------------------------------------------------------------------
+---- VisiData Helpers ----------------------------------------------------------
+--------------------------------------------------------------------------------
 
--- Determine the correct VisiData command
-local function get_visidata_command()
-  local sysname = vim.loop.os_uname().sysname
-  if sysname == "Windows_NT" then
-    return "visidata"
-  else
-    return "vd"
-  end
-end
+local is_windows = utils.is_windows -- Rename for clarity
+local visidata_cli = utils.is_windows and "visidata" or "vd"
+local temp_path = utils.get_temp_path()
+local opts = M.get_default_window_options()
 
-
-local temp_path = get_temp_path()
-local visidata_cmd = get_visidata_command()
-
--- Pandas (DataFramer) Viewer
 function M.open_vd_under_cursor()
   local var_name = vim.fn.expand "<cword>"
   local filetype = vim.bo.filetype
-  local opts = M.get_default_window_options()
 
   if filetype == "python" then
-    -- For Python (Pandas)
-    local csv_path = temp_path .. (vim.fn.has("win32") == 1 and "\\debug_df.csv" or "/debug_df.csv")
+    local csv_path = temp_path .. (is_windows and "\\debug_df.csv" or "/debug_df.csv")
     local python_cmd = string.format("%s.to_csv(r'%s')", var_name, csv_path)
     dap.repl.execute(python_cmd)
 
-    local terminal_cmd = string.format("%s \"%s\"", visidata_cmd, csv_path)
+    local terminal_cmd = string.format('%s "%s"', visidata_cli, csv_path)
     Snacks.terminal(terminal_cmd, opts)
   elseif filetype == "javascript" or filetype == "typescript" then
-    -- For JavaScript/TypeScript (Objects)
-    dap.repl.execute("testFn(" .. var_name .. ")") -- Replace `testFn` with your actual function
+    dap.repl.execute("testFn(" .. var_name .. ")")
 
-    -- Handle JSON temporary file path
-    local json_path = temp_path .. (vim.fn.has("win32") == 1 and "\\debug_obj.json" or "/debug_obj.json")
-    local terminal_cmd = string.format("%s \"%s\"", visidata_cmd, json_path)
+    local json_path = temp_path .. (is_windows and "\\debug_obj.json" or "/debug_obj.json")
+    local terminal_cmd = string.format('%s "%s"', visidata_cli, json_path)
     Snacks.terminal(terminal_cmd, opts)
   else
     vim.notify("Filetype not supported for Data Viewer", vim.log.levels.ERROR)
   end
 end
 
--- Types in DataFrame Viewer
-function M.describe_types_in_df_in_vd()
+-- TODO: Extend this to javascript
+function M.describe_python_types_in_df_in_vd()
   local var_name = vim.fn.expand "<cword>"
-  local opts = M.get_default_window_options()
   local py_cmds = {
     "element_types = " .. var_name .. ".applymap(type)",
     "element_types.to_csv('/tmp/debug_df.csv')",
@@ -133,13 +62,15 @@ function M.describe_types_in_df_in_vd()
   for _, cmd in ipairs(py_cmds) do
     dap.repl.execute(cmd)
   end
-  Snacks.terminal("vd /tmp/debug_df.csv", opts)
+
+  local csv_path = temp_path .. (is_windows and "\\debug_df.csv" or "/debug_df.csv")
+  local terminal_cmd = string.format('%s "%s"', visidata_cli, csv_path)
+  Snacks.terminal(terminal_cmd, opts)
 end
 
--- Summarise types in DataFrame
-function M.summarise_types_in_df_in_vd()
+-- TODO: Extend this to javascript
+function M.summarise_python_types_in_df_in_vd()
   local var_name = vim.fn.expand "<cword>"
-  local opts = M.get_default_window_options()
   local py_cmds = {
     "type_counts = " .. var_name .. ".applymap(type).apply(pd.Series.value_counts)",
     "type_counts.to_csv('/tmp/debug_df.csv')",
@@ -148,39 +79,6 @@ function M.summarise_types_in_df_in_vd()
     dap.repl.execute(cmd)
   end
   Snacks.terminal("vd /tmp/debug_df.csv", opts)
-end
-
---------------------------------------------------------------------------------
----- Javascript Display Helpers ------------------------------------------------
---------------------------------------------------------------------------------
-
-function M.print_var_under_cursor_nodejs()
-  local var_name = vim.fn.expand "<cword>"
-  local buf = M.create_buffer()
-  local command = "console.table(" .. var_name .. ")"
-  dap.repl.execute(command)
-
-  -- Capture DAP REPL output and write to the buffer
-  dap.listeners.after.event_output["print_nodejs_variable"] = function(_, body)
-    if body.category == "stdout" or body.category == "stderr" then
-      local lines = vim.split(body.output, "\n")
-      vim.api.nvim_buf_set_lines(buf, -1, -1, false, lines)
-
-      -- Apply header highlight for the first three lines (the header)
-      -- for i = 1, 2 do
-      --   if #lines >= i then
-      --     vim.api.nvim_buf_add_highlight(buf, -1, "DataFrameHeader", i - 1, 0, -1) -- Header gets its own color
-      --   end
-      -- end
-      --
-      -- -- Apply alternating row highlights starting from the fourth line (the data)
-      -- for i = 3, #lines + 1 do
-      --   local highlight_group = (i % 2 == 0) and "StripedLine2" or "StripedLine1"
-      --   vim.api.nvim_buf_add_highlight(buf, -1, highlight_group, i - 1, 0, -1)
-      -- end
-    end
-  end
-  M.open_floating_window(buf)
 end
 
 --------------------------------------------------------------------------------

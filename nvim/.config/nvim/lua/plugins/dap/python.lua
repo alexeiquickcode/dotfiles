@@ -1,42 +1,7 @@
 local dap = require "dap"
-local utils = require "plugins.dap.utils"
+local utils = require "utils"
 
--- Conditional hook based on adapter name
-dap.listeners.after.event_initialized["run_pandas_init"] = function(session)
-  if session.config.type == "python" then utils.initialize_python_repl_silently() end
-end
-
-local function get_python_executable()
-  local cwd = vim.fn.getcwd()
-  local is_windows = vim.loop.os_uname().version:match "Windows"
-  local user_home = is_windows and vim.env.USERPROFILE or vim.env.HOME
-  local windows_venv_path = cwd .. "\\.venv\\Scripts\\python.exe"
-  local unix_venv_path = cwd .. "/.venv/bin/python"
-
-  -- Check for virtual environment first
-  if is_windows and vim.fn.executable(windows_venv_path) == 1 then
-    return windows_venv_path
-  elseif vim.fn.executable(unix_venv_path) == 1 then
-    return unix_venv_path
-  end
-
-  -- Use pyenv to find the currently active Python executable
-  local handle = io.popen "pyenv which python"
-  local result = handle:read "*a"
-  handle:close()
-
-  -- Trim any trailing whitespace/newlines from the result
-  result = result:gsub("%s+$", "")
-
-  -- Fallback if pyenv is not available or fails
-  if result and result ~= "" then
-    return result
-  elseif is_windows then
-    return user_home .. "\\.pyenv\\pyenv-win\\shims\\python"
-  else
-    return user_home .. "/.pyenv/shims/python"
-  end
-end
+local is_windows = utils.is_windows
 
 --------------------------------------------------------------------------------
 ---- Python configuration ------------------------------------------------------
@@ -46,21 +11,20 @@ end
 dap.set_log_level "DEBUG"
 vim.fn.setenv("NVIM_DAP_LOG_FILE", vim.fn.stdpath "data" .. "/dap.log")
 
-if vim.loop.os_uname().sysname == "Windows_NT" then
-  -- Windows config
+if is_windows then
   dap.adapters.python = {
     type = "executable",
     command = os.getenv "USERPROFILE" .. "\\.virtualenvs\\debugpy\\Scripts\\python.exe",
     args = { "-m", "debugpy.adapter" },
   }
 else
-  -- linux config
   dap.adapters.python = {
     type = "executable",
     command = os.getenv "HOME" .. "/.virtualenvs/debugpy/bin/python",
     args = { "-m", "debugpy.adapter" },
   }
 
+  -- NOTE: For Docker contaienrs
   -- dap.adapters.python = {
   --   type = "server",
   --   host = "0.0.0.0",
@@ -78,7 +42,7 @@ dap.configurations.python = {
 
     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
     program = "${file}",
-    pythonPath = function() return get_python_executable() end,
+    pythonPath = function() return utils.get_python_executable() end,
   },
   {
     type = "python",
@@ -94,7 +58,7 @@ dap.configurations.python = {
       -- NOTE: envFile:   This is only a property in vscode's version of debugpy (so for nvim we have to pass it as an env var)
       envFile = "${workspaceFolder}/environment/.env.uat",
     },
-    pythonPath = function() return get_python_executable() end,
+    pythonPath = function() return utils.get_python_executable() end,
   },
   {
     name = "UAT: FastAPI (Port 8000)",
@@ -114,9 +78,9 @@ dap.configurations.python = {
     env = {
       ENVIRONMENT = "uat",
     },
-    console = "integratedTerminal", -- Use the integrated terminal to see output logs
+    console = "integratedTerminal",
     logToFile = true,
-    pythonPath = function() return get_python_executable() end,
+    pythonPath = function() return utils.get_python_executable() end,
   },
   {
     name = "UAT: FastAPI (Port 8001)",
@@ -138,7 +102,7 @@ dap.configurations.python = {
     },
     console = "integratedTerminal",
     logToFile = true,
-    pythonPath = function() return get_python_executable() end,
+    pythonPath = function() return utils.get_python_executable() end,
   },
   {
     type = "python",
@@ -202,7 +166,7 @@ dap.configurations.python = {
     },
     console = "integratedTerminal",
     logToFile = true,
-    pythonPath = function() return get_python_executable() end,
+    pythonPath = function() return utils.get_python_executable() end,
   },
   {
     name = "Production: FastAPI (Port: 8001)",
@@ -224,6 +188,6 @@ dap.configurations.python = {
     },
     console = "integratedTerminal",
     logToFile = true,
-    pythonPath = function() return get_python_executable() end,
+    pythonPath = function() return utils.get_python_executable() end,
   },
 }
