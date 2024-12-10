@@ -1,5 +1,7 @@
 return {
   {
+    -- TODO: Clean this shit up
+    --
     -- LSP Configuration
     -- https://github.com/neovim/nvim-lspconfig
     "neovim/nvim-lspconfig",
@@ -17,7 +19,7 @@ return {
       { "williamboman/mason-lspconfig.nvim" },
 
       -- Useful status updates for LSP
-      { "j-hui/fidget.nvim",                opts = {} },
+      { "j-hui/fidget.nvim", opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       { "folke/neodev.nvim" },
@@ -27,14 +29,14 @@ return {
       require("mason-lspconfig").setup {
         ensure_installed = {
           "bashls", -- (uses npm)
-          "cssls",  -- (uses npm)
-          "html",   -- (uses npm)
+          "cssls", -- (uses npm)
+          "html", -- (uses npm)
           "lua_ls",
           "jsonls", -- (uses npm)
           "lemminx",
           "marksman",
           "quick_lint_js",
-          "ts_ls",  -- (uses npm)
+          "ts_ls", -- (uses npm)
           "yamlls", -- (uses npm)
           -- 'basedpyright' -- (installed using pip)
         },

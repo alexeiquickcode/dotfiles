@@ -14,12 +14,8 @@ vim.cmd [[
 -- Current line number yellow
 vim.cmd [[highlight CursorLineNr guifg=#FFFF00]]
 
--- Highlight groups for displaying Pandas DataFrames (in python)
-vim.cmd [[
-  highlight StripedLine1 guibg=#EDE4D0 guifg=#8A716A
-  highlight StripedLine2 guibg=#D3C0A6  guifg=#8A716A
-  highlight DataFrameHeader guibg=#3C2F2F guifg=#F5E9D3 gui=bold
-]]
+-- Command line HL group
+vim.cmd [[highlight Cmdline guifg=#ffffff guibg=#000000]]
 
 -- Remove lsp symbols on line numbers
 vim.cmd [[
@@ -29,15 +25,10 @@ vim.cmd [[
   sign define DiagnosticSignHint  text= texthl=TextHint  linehl= numhl=
 ]]
 
+-- Remove the LSP diagnostics ?
 vim.diagnostic.config {
   signs = false,
 }
-
--- TODO: I don't think this works
-vim.cmd [[
-  highlight dap_ui_layer_hl_20 guifg=#DD97F1
-  highlight dap_ui_layer_hl_35 guifg=#DD97F1
-]]
 
 -- vim.cmd [[
 --   syn region pythonDocString start=+^\s*"""+ end=+"""+ keepend contains=...

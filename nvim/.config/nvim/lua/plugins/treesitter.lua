@@ -1,21 +1,42 @@
 --- @type LazySpec
 return {
   {
-    "LiadOz/nvim-dap-repl-highlights", -- The REPL highlights plugin
-    dependencies = { "mfussenegger/nvim-dap" }, -- Ensure this is loaded after nvim-dap
-    config = function() 
-      require("nvim-dap-repl-highlights").setup()
-    end,
-    before = "nvim-treesitter/nvim-treesitter", -- Ensure this is loaded before Treesitter
+    "LiadOz/nvim-dap-repl-highlights",
+    dependencies = { "mfussenegger/nvim-dap" },
+    config = function() require("nvim-dap-repl-highlights").setup() end,
+    before = "nvim-treesitter/nvim-treesitter", -- Load before treesitter
   },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-      local config = require("nvim-treesitter.configs")
-      config.setup({
+      local config = require "nvim-treesitter.configs"
+      config.setup {
         auto_install = true,
         highlight = { enable = true },
+        ensure_installed = {
+          "lua",
+          "vim",
+          "typescript",
+          "javascript",
+          "tsx",
+          "json",
+          "html",
+          "css",
+          "scss",
+          "yaml",
+          "python",
+          "rust",
+          "c",
+          "cpp",
+          "java",
+          "toml",
+          "ini",
+          "regex",
+          "bash",
+          "markdown",
+          "markdown_inline",
+        },
         indent = { enable = true },
         queries = {
           python = [[
@@ -23,34 +44,7 @@ return {
               (string) @docstring)
           ]],
         },
-      })
-    end
-  }
+      }
+    end,
+  },
 }
-
--- ---@type LazySpec
--- return {
---   "nvim-treesitter/nvim-treesitter",
---   opts = {
---     ensure_installed = {
---       "lua",
---       "vim",
---       "typescript",
---       "javascript",
---       "tsx",
---       "json",
---       "html",
---       "css",
---       "scss",
---       "yaml",
---       "python",
---       "rust",
---       "c",
---       "cpp",
---       "java",
---       "toml",
---       "ini",
---     },
---   },
-
--- }
