@@ -72,6 +72,29 @@ function M.get_default_window_options()
   return opts
 end
 
+local function get_temp_path() -- TODO: Move this to a shared module
+  local sysname = vim.loop.os_uname().sysname
+  if sysname == "Windows_NT" then
+    return os.getenv("TEMP") or os.getenv("TMP") or "C:\\Temp"
+  else
+    return os.getenv("TMPDIR") or "/tmp"
+  end
+end
+
+-- Determine the correct VisiData command
+local function get_visidata_command()
+  local sysname = vim.loop.os_uname().sysname
+  if sysname == "Windows_NT" then
+    return "visidata"
+  else
+    return "vd"
+  end
+end
+
+
+local temp_path = get_temp_path()
+local visidata_cmd = get_visidata_command()
+
 -- Pandas (DataFramer) Viewer
 function M.open_vd_under_cursor()
   local var_name = vim.fn.expand "<cword>"
@@ -80,14 +103,19 @@ function M.open_vd_under_cursor()
 
   if filetype == "python" then
     -- For Python (Pandas)
-    local python_cmd = var_name .. ".to_csv('/tmp/debug_df.csv')"
+    local csv_path = temp_path .. (vim.fn.has("win32") == 1 and "\\debug_df.csv" or "/debug_df.csv")
+    local python_cmd = string.format("%s.to_csv(r'%s')", var_name, csv_path)
     dap.repl.execute(python_cmd)
-    local terminal_cmd = "vd '/tmp/debug_df.csv'"
+
+    local terminal_cmd = string.format("%s \"%s\"", visidata_cmd, csv_path)
     Snacks.terminal(terminal_cmd, opts)
   elseif filetype == "javascript" or filetype == "typescript" then
     -- For JavaScript/TypeScript (Objects)
-    dap.repl.execute("testFn(" .. var_name .. ")")
-    local terminal_cmd = "vd '/tmp/debug_obj.json'"
+    dap.repl.execute("testFn(" .. var_name .. ")") -- Replace `testFn` with your actual function
+
+    -- Handle JSON temporary file path
+    local json_path = temp_path .. (vim.fn.has("win32") == 1 and "\\debug_obj.json" or "/debug_obj.json")
+    local terminal_cmd = string.format("%s \"%s\"", visidata_cmd, json_path)
     Snacks.terminal(terminal_cmd, opts)
   else
     vim.notify("Filetype not supported for Data Viewer", vim.log.levels.ERROR)

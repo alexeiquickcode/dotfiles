@@ -84,11 +84,21 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Set python 3 host program
-local handle = io.popen "pyenv global"
+local handle = io.popen("pyenv global")
+if handle == nil then
+  error("Failed to get Python version from pyenv")
+end
 local python_version = handle:read("*a"):gsub("%s+", "")
 handle:close()
-local base_dir = vim.fn.has "win32" == 1 or vim.fn.has "win64" == 1 and vim.env.USERPROFILE or vim.env.HOME
-if vim.fn.has "win32" == 1 or vim.fn.has "win64" == 1 then
+
+local base_dir
+if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+  base_dir = vim.env.USERPROFILE
+else
+  base_dir = vim.env.HOME
+end
+
+if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
   vim.g.python3_host_prog = base_dir .. "/.pyenv/pyenv-win/versions/" .. python_version .. "/python.exe"
 else
   vim.g.python3_host_prog = base_dir .. "/.pyenv/versions/" .. python_version .. "/bin/python"

@@ -11,7 +11,14 @@ return {
     {
       "microsoft/vscode-js-debug",
       version = "1.x",
-      build = "npm i && npm run compile vsDebugServerBundle && mv dist out",
+      build = "npm install && npm run compile vsDebugServerBundle && mv dist out", -- TODO: Get working on windows
+      -- build = function()
+      --   if vim.loop.os_uname().sysname == "Windows_NT" then
+      --     vim.fn.system("npm install && npm run compile vsDebugServerBundle && move dist out")
+      --   else
+      --     vim.fn.system("npm install && npm run compile vsDebugServerBundle && mv dist out")
+      --   end
+      -- end,
     },
   },
   config = function()
