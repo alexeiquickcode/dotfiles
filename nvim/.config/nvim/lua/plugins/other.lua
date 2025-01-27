@@ -288,7 +288,7 @@ return {
     opts = {
       scratch = { enabled = true },
       terminal = { enabled = true },
-      dashboard = { example = "pokemon" },
+      dashboard = { example = "doom" },
       lazygit = {},
     },
     keys = {
