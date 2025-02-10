@@ -76,16 +76,16 @@ return {
     version = "*",
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
-      local bufferline = require('bufferline')
+      local bufferline = require "bufferline"
 
       bufferline.setup {
         options = {
-          mode = "buffers",                               -- set to "tabs" to only show tabpages instead
+          mode = "buffers", -- set to "tabs" to only show tabpages instead
           style_preset = bufferline.style_preset.minimal, -- or bufferline.style_preset.minimal,
-          themable = true,                                -- allows highlight groups to be overriden i.e. sets highlights as default
+          themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
           -- numbers = "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
           indicator = {
-            icon = '▎', -- this should be omitted if indicator style is not 'icon'
+            icon = "▎", -- this should be omitted if indicator style is not 'icon'
             -- style = 'underline', -- WARN: Seems to only be underlining the icon...
           },
           offsets = {
@@ -94,13 +94,13 @@ return {
               text = "File Explorer",
               -- text_align = "left" | "center" | "right",
               text_align = "left",
-              separator = true
-            }
+              separator = true,
+            },
           },
-          color_icons = true,              -- whether or not to add the filetype icon highlights
+          color_icons = true, -- whether or not to add the filetype icon highlights
           duplicates_across_groups = true, -- whether to consider duplicate paths in different groups as duplicates
-          persist_buffer_sort = true,      -- whether or not custom sorted buffers should persist
-          move_wraps_at_ends = false,      -- whether or not the move command "wraps" at the first or last position
+          persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
+          move_wraps_at_ends = false, -- whether or not the move command "wraps" at the first or last position
           -- can also be a table containing 2 custom separators
           -- [focused and unfocused]. eg: { '|', '|' }
           -- separator_style = "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
@@ -110,9 +110,9 @@ return {
           hover = {
             enabled = true,
             delay = 200,
-            reveal = { 'close' }
+            reveal = { "close" },
           },
-          sort_by = 'extension',
+          sort_by = "extension",
           -- sort_by = 'insert_after_current' |'insert_at_end' | 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(
           --     buffer_a, buffer_b)
           --   -- add custom logic
@@ -120,7 +120,7 @@ return {
           --   local modified_b = vim.fn.getftime(buffer_b.path)
           --   return modified_a > modified_b
           --end
-        }
+        },
       }
     end,
   },
@@ -135,5 +135,15 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function() require("lualine").setup() end,
+  },
+
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
   },
 }

@@ -20,9 +20,13 @@ vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true
 vim.keymap.set("n", "<A-d>", "yyp", { noremap = true, silent = true, desc = "Duplicate line" })
 vim.keymap.set("v", "<A-d>", "y`>p", { noremap = true, silent = true, desc = "Duplicate selection" })
 
--- Navigate buffer tabs
-vim.keymap.set('n', ']b', ':BufferLineCycleNext<CR>', { desc = "Next buffer" })
-vim.keymap.set('n', '[b', ':BufferLineCyclePrev<CR>', { desc = "Previous buffer" })
+-- Navigate buffers
+vim.keymap.set("n", "]b", ":BufferLineCycleNext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "[b", ":BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
+
+-- Navigate tabs
+vim.keymap.set("n", "]t", ":tabnext<CR>", { noremap = true, silent = true, desc = "Next tab" })
+vim.keymap.set("n", "[t", ":tabprevious<CR>", { noremap = true, silent = true, desc = "Previous tab" })
 
 -- Do not copy when using 'x'
 vim.keymap.set("n", "x", '"_x', { desc = "Do not copy when using 'x'" })
@@ -41,7 +45,7 @@ vim.keymap.set("n", "d", '"_d', { desc = "Do not copy delete to clipboard" })
 vim.keymap.set("v", "d", '"_d', { desc = "Do not copy delete to clipboard" })
 
 -- Keep last yanked when pasting
-vim.keymap.set('v', 'p', '"_dP', { desc = "Keep last yanked when pasting" })
+vim.keymap.set("v", "p", '"_dP', { desc = "Keep last yanked when pasting" })
 
 -- Close buffer from tabline (NOT SURE THIS WORKS)
 vim.keymap.set("n", "<Leader>bd", function()
@@ -49,13 +53,13 @@ vim.keymap.set("n", "<Leader>bd", function()
 end, { desc = "Close buffer from tabline" })
 
 -- Close current buffer (need to install moll/vim-bbye [this is a VIM ext] for this)
-vim.keymap.set('n', '<leader>c', ':Bdelete<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>c", ":Bdelete<CR>", { noremap = true, silent = true })
 
 -- Set a keymap for <leader>e to toggle Neo-tree
 vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true })
 
 -- Close floating UI window
-vim.keymap.set('n', 'q', '<cmd>close<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
 
 -- Record macro
-vim.keymap.set('n', 'Q', 'q', { noremap = true, silent = true })
+vim.keymap.set("n", "Q", "q", { noremap = true, silent = true })

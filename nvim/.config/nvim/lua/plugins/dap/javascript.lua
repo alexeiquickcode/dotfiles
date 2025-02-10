@@ -24,7 +24,8 @@ for _, language in ipairs { "typescript", "javascript" } do
       request = "launch",
       name = "Launch UAT",
       runtimeExecutable = "nodemon", -- Use nodemon for automatic reloads
-      runtimeArgs = { "--exec", "NODE_ENV=uat node --require ./fs-test.js" },
+      -- runtimeArgs = { "--exec", "NODE_ENV=uat node --require ./fs-test.js" }, TODO: Where should i put this fs test file so its available ???
+      runtimeArgs = { "--exec", "NODE_ENV=uat node" },
       -- runtimeArgs = { "--exec", "cross-env NODE_ENV=uat node" }, -- Use for windows
       skipFiles = {
         "<node_internals>/**",
