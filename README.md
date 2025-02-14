@@ -1,4 +1,4 @@
-# 🛠 My Dotfiles
+# 🛠 dotfiles
 
 This repo is a collection of all my dotfiles, managed by GNU Stow for easy symlink management
 
@@ -6,11 +6,12 @@ This repo is a collection of all my dotfiles, managed by GNU Stow for easy symli
 
 Inside ~/dotfiles (Actual Files)
 
+```bash
 ~/dotfiles/
 │── ghostty/
 │   └── .config/
 │       └── ghostty/
-│           └── config  <-- 🔹 Real file
+│           └── config    <-- 🔹 Real file
 │── nvim/
 │   └── .config/
 │       └── nvim/
@@ -21,12 +22,17 @@ Inside ~/dotfiles (Actual Files)
 Inside ~/.config/ (Symlinks)
 
 ~/.config/
-├─ ghostty/
-│  ├─ config   <-- ~/dotfiles/ghostty/.config/ghostty/config  (🔗 Symlink) 
+├── ghostty/
+│   └── config           ->  ~/dotfiles/ghostty/.config/ghostty/config  (🔗 Symlink)
+├── nvim/
+│   ├── init.lua         ->  ~/dotfiles/nvim/.config/nvim/init.lua  (🔗 Symlink)
+│   └── lua/
+│       └── plugins.lua  ->  ~/dotfiles/nvim/.config/nvim/lua/plugins.lua  (🔗 Symlink)
+```
 
-## 🚀 How to add a new/remove dotfile
+## 🚀 Add or remove dotfiles 
 
-Move the configuration file(s) into the `dotfiles` repository, ensuring the **correct folder structure**:
+Move the configuration file(s) into the `dotfiles` repository:
 
 Example for **Ghostty**:
 ```sh
@@ -36,7 +42,7 @@ stow -v ghostty
 ```
 To remove a dotfiles `stow -D -v ghostty`
 
-## New setup (new computer)
+## 🖥️ Install all dotfiles 
 
 ```sh
 git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
