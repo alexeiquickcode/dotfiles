@@ -125,5 +125,28 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # Add auto suggestions
 source /usr/share//zsh-autosuggestions/zsh-autosuggestions.zsh 
 
+# K8s setup
+export KUBECONFIG="$HOME/.kube/homelab.yaml"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH" # Krew plugin manager
+
 # Add Starship prompt
 eval "$(starship init zsh)"
+
+function set_aws_profile_based_on_dir() {
+    case "$PWD" in
+        $HOME/development/winning*)
+            export AWS_PROFILE=default
+            ;;
+        $HOME/development/personal*)
+            export AWS_PROFILE=personal
+            ;;
+        *)
+            unset AWS_PROFILE
+            ;;
+    esac
+}
+
+precmd() {
+    set_aws_profile_based_on_dir
+}
+# Set AWS Profile

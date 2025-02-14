@@ -17,3 +17,5 @@ light = false      # set to true if you're in a terminal w/ a light background c
 side-by-side = false
 line-numbers = true
 ; syntax-theme = tokyonight_moon
+[user]
+	email = alexei.quick@gmail.com
