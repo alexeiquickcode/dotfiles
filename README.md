@@ -50,4 +50,18 @@ cd ~/dotfiles
 stow -v */
 ```
 
+## Misc
 
+### 🔑 Github / Bitbucket SSH Keys Setup
+
+```bash
+cd .ssh
+ssh-keygen -t ed25519 -b 4096 -C "x@gmail.com" -f github-personal
+eval "$(ssh-agent -s)" # Check if the SSH agent is running
+ssh-add ~/.ssh/github-personal
+ssh -T git@github.com
+
+ssh-keygen -t ed25519 -b 4096 -C "x@x.com.au" -f bitbucket-x
+ssh-add ~/.ssh/bitbucket-x
+ssh -T git@bitbucket.org
+```
