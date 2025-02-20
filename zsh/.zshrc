@@ -70,8 +70,16 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting)
+#
 
+# Enable Oh My Zsh plugins
+plugins=(git)
+
+# Load plugins manually
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Load Oh My Zsh
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -122,9 +130,6 @@ export PATH="$PATH:/opt/mssql-tools/bin"
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# Add auto suggestions
-source /usr/share//zsh-autosuggestions/zsh-autosuggestions.zsh 
-
 # K8s setup
 export KUBECONFIG="$HOME/.kube/homelab.yaml"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH" # Krew plugin manager
@@ -132,6 +137,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH" # Krew plugin manager
 # Add Starship prompt
 eval "$(starship init zsh)"
 
+# Set AWS Profile
 function set_aws_profile_based_on_dir() {
     case "$PWD" in
         $HOME/development/winning*)
@@ -149,4 +155,3 @@ function set_aws_profile_based_on_dir() {
 precmd() {
     set_aws_profile_based_on_dir
 }
-# Set AWS Profile

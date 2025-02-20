@@ -6,8 +6,8 @@
 
 set -euo pipefail # Exits on errors and treats unset variables as errors
 
-read -p "Enter Python version to install (default: 3.11.9): " PYTHON_VERSION
-PYTHON_VERSION=${PYTHON_VERSION:-3.11.9}
+read -p "Enter Python version to install (default: 3.12.9): " PYTHON_VERSION
+PYTHON_VERSION=${PYTHON_VERSION:-3.12.9}
 
 read -p "Enter NVM version to install (default: 0.40.1): " NVM_VERSION
 NVM_VERSION=${NVM_VERSION:-0.40.1}
@@ -19,11 +19,15 @@ NVM_VERSION=${NVM_VERSION:-0.40.1}
 # Update system and install essential packages
 sudo pacman -Syu --noconfirm
 
+sudo pacman -S --noconfirm xclip # To be able to copy and paste to nvim
+
 # Install essential packages
 sudo pacman -S --noconfirm \
     wget \
     curl \
     git \
+    lazygit \
+    git-delta \
     zsh \
     openssh \
     tmux \
@@ -45,9 +49,7 @@ chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Install zsh plugsins 
-mkdir -p ~/.zsh/plugins
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/plugins/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
+yay -S --noconfirm zsh-syntax-highlighting zsh-autosuggestions
 
 # Install starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y
