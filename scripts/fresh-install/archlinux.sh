@@ -132,7 +132,9 @@ yay -S --noconfirm \
 
 git clone https://github.com/alexeiquickcode/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow -v */
+
+rm -f ~/.zshrc # Will install with stow
+stow --ignore='scripts' */
 
 # ------------------------------------------------------------------------------
 
