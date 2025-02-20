@@ -44,6 +44,14 @@ sudo pacman -S --noconfirm \
 chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# Install zsh plugsins 
+mkdir -p ~/.zsh/plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
+
+# Install starship
+curl -sS https://starship.rs/install.sh | sh -s -- -y
+
 # Install yay (AUR helper)
 if ! command -v yay &>/dev/null; then
     git clone https://aur.archlinux.org/yay.git
