@@ -90,7 +90,8 @@ sudo pacman -S --noconfirm --needed \
     xz \
     tk \
     libffi \
-    python-pyopenssl
+    python-pyopenssl \ 
+    python-build
 
 # ------------------------------------------------------------------------------
 # ---- Programming Languages ---------------------------------------------------
@@ -134,7 +135,8 @@ yay -S --noconfirm \
     postman-bin \
     datagrip \
     pinta \
-    libreoffice-fresh
+    libreoffice-fresh \ 
+    aws-cli-v2
 
 # ------------------------------------------------------------------------------
 # ---- Dotfiles ----------------------------------------------------------------
