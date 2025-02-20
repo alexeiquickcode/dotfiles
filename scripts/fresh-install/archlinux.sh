@@ -37,7 +37,8 @@ sudo pacman -S --noconfirm \
     xz \
     libffi \
     mariadb-libs \
-    python-pyopenssl
+    python-pyopenssl \ 
+    ghostty
 
 # Set zsh as the default shell
 chsh -s $(which zsh)
@@ -124,6 +125,14 @@ yay -S --noconfirm \
     datagrip \
     pinta \
     libreoffice-fresh
+
+# ------------------------------------------------------------------------------
+# ---- Dotfiles ----------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+git clone https://github.com/alexeiquickcode/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+stow -v */
 
 # ------------------------------------------------------------------------------
 
