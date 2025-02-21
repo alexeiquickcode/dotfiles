@@ -141,7 +141,7 @@ eval "$(starship init zsh)"
 function set_aws_profile_based_on_dir() {
     case "$PWD" in
         $HOME/development/winning*)
-            export AWS_PROFILE=default
+            export AWS_PROFILE=winning
             ;;
         $HOME/development/personal*)
             export AWS_PROFILE=personal

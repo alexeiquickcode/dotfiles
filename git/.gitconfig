@@ -19,3 +19,5 @@ line-numbers = true
 ; syntax-theme = tokyonight_moon
 [user]
 	email = alexei.quick@gmail.com
+[credential]
+	helper = store

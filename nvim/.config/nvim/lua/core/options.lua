@@ -65,7 +65,7 @@ vim.opt.swapfile = false
 
 -- Set tab size for JavaScript files to 4 spaces
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "json", "xml", "sh" },
+  pattern = { "javascript", "json", "xml", "sh", "conf" },
   callback = function()
     vim.opt_local.shiftwidth = 4
     vim.opt_local.tabstop = 4
