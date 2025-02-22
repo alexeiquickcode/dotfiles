@@ -55,8 +55,8 @@ stow -v */
 ### 🔑 Github / Bitbucket SSH Keys Setup
 
 ```bash
-cd .ssh
-ssh-keygen -t ed25519 -b 4096 -C "x@gmail.com" -f github-personal
+cd ~/.ssh
+ssh-keygen -t ed25519 -b 4096 -C "alexei.quick@gmail.com" -f github-personal
 eval "$(ssh-agent -s)" # Check if the SSH agent is running
 ssh-add ~/.ssh/github-personal
 ssh -T git@github.com
