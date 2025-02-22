@@ -16,10 +16,18 @@ NVM_VERSION=${NVM_VERSION:-0.40.1}
 # ---- Low Level Dependencies --------------------------------------------------
 # ------------------------------------------------------------------------------
 
+# Install yay (AUR helper)
+if ! command -v yay &>/dev/null; then
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si --noconfirm
+    cd .. && rm -rf yay
+fi
+
 # Update system and install essential packages
 sudo pacman -Syu --noconfirm
 
-sudo pacman -S --noconfirm xclip # To be able to copy and paste to nvim
+sudo pacman -S --noconfirm xclip xl-clipboard # To be able to copy and paste to nvim (xclip for x11)
 
 # Install essential packages
 sudo pacman -S --noconfirm \
@@ -41,7 +49,7 @@ sudo pacman -S --noconfirm \
     xz \
     libffi \
     mariadb-libs \
-    python-pyopenssl \ 
+    python-pyopenssl \
     ghostty
 
 # Set zsh as the default shell
@@ -54,16 +62,8 @@ yay -S --noconfirm zsh-syntax-highlighting zsh-autosuggestions
 # Install starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y
 
-# Install yay (AUR helper)
-if ! command -v yay &>/dev/null; then
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si --noconfirm
-    cd .. && rm -rf yay
-fi
-
 # Install Nerd Fonts globally
-NERD_FONT="CaskaydiaCove"
+NERD_FONT="CascadiaCode"
 sudo mkdir -p /usr/share/fonts/NerdFonts
 cd /usr/share/fonts/NerdFonts
 sudo curl -LO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${NERD_FONT}.zip
@@ -72,7 +72,7 @@ sudo rm ${NERD_FONT}.zip
 fc-cache -fv
 
 # Install NVIDIA drivers if applicable
-if lspci | grep -i nvidia; then
+if lspci | grep -i nvidia; then # TODO: Already installed in arch installer?
     sudo pacman -S --noconfirm nvidia nvidia-utils
 fi
 
@@ -90,7 +90,7 @@ sudo pacman -S --noconfirm --needed \
     xz \
     tk \
     libffi \
-    python-pyopenssl \ 
+    python-pyopenssl \
     python-build
 
 # ------------------------------------------------------------------------------
@@ -135,7 +135,7 @@ yay -S --noconfirm \
     postman-bin \
     datagrip \
     pinta \
-    libreoffice-fresh \ 
+    libreoffice-fresh \
     aws-cli-v2
 
 
@@ -144,8 +144,9 @@ yay -S --noconfirm \
 # ------------------------------------------------------------------------------
 
 pacman -S --noconfirm \
-    waybar \ 
-    rofi \ thunar \ 
+    waybar \
+    rofi \
+    thunar \
     hypridle \
     xdg-desktop-portal-hyprland \
     swappy

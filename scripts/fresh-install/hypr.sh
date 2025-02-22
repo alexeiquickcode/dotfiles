@@ -6,3 +6,4 @@
 # Install xdg-desktop-portal-hyprland
 # Install swappy (screenshots)
 
+# wallust
