@@ -1,0 +1,87 @@
+/* General Bar Style */
+* {
+    font-family: "CaskaydiaCove Nerd Font", sans-serif;
+    font-size: 14px;
+    border: none;
+    padding: 0;
+}
+
+/* Waybar background and text color */
+window#waybar {
+    background-color: rgba(30, 30, 46, 0.9);
+    color: #cdd6f4;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* CPU, RAM, and Network Styles */
+#cpu,
+#memory,
+#custom-cpu_temp,
+#network {
+    padding: 0 10px;
+    border-radius: 5px;
+    background-color: #313244;
+    color: #89b4fa;
+}
+
+/* Power Button */
+#custom-power {
+    padding: 0 10px;
+    background-color: #f38ba8;
+    color: #1e1e2e;
+    border-radius: 5px;
+}
+
+/* Date and Time Module Style */
+#custom-date,
+#custom-time {
+    padding: 0 10px;
+    background-color: #89b4fa;
+    color: #1e1e2e;
+    border-radius: 5px;
+}
+
+/* Clock */
+#clock {
+    padding: 0 10px;
+    background-color: #89b4fa;
+    color: #1e1e2e;
+    border-radius: 5px;
+}
+
+/* Workspaces */
+#workspaces button {
+    padding: 0 5px;
+    margin: 2px;
+    background-color: transparent;
+    color: #89b4fa;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+#workspaces button.active {
+    background-color: #89b4fa;
+    color: #1e1e2e;
+}
+
+#workspaces button:hover {
+    background-color: #f5c2e7;
+    color: #1e1e2e;
+}
+
+/* System Tray */
+#tray {
+    padding: 0 10px;
+}
+
+/* Power Button Style */
+#custom-power {
+    padding: 0 10px;
+    background-color: #f38ba8;
+    color: #1e1e2e;
+    border-radius: 5px;
+}
+
+#custom-power:hover {
+    background-color: #ff6b81;
+}

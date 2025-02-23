@@ -7,3 +7,5 @@
 # Install swappy (screenshots)
 
 # wallust
+# iperf3 (for download speeds)
+# wlogout (for waybay power dropdown)

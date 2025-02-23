@@ -1,0 +1,72 @@
+{
+    // CPU Usage
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": true,
+        "interval": 5
+    },
+    // RAM Usage
+    "memory": {
+        "format": " {percentage}% ({used}gb)",
+        "tooltip": true,
+        "interval": 5
+    },
+    "network": {
+        "interval": 5,
+        "format": "{ifname}",
+        // Display download/upload speed in MB/s
+        "format-wifi": "{icon} {essid} [{ipaddr}]  {bandwidthDownBytes}  {bandwidthUpBytes}",
+        "format-ethernet": "{icon}  {bandwidthDownBytes}s  {bandwidthUpBytes}s",
+        "format-disconnected": "󰌙 Disconnected",
+        "format-linked": "󰈁 {ifname} (No IP)",
+        // Tooltip for additional info
+        "tooltip-format": "{ipaddr}",
+        "tooltip-format-wifi": "{essid} {icon} {signalStrength}%",
+        "tooltip-format-ethernet": "{ifname} 󰌘",
+        "tooltip-format-disconnected": "󰌙 Disconnected",
+        // Limit display length
+        // "max-length": 30,
+        // Wi-Fi signal strength icons
+        "format-icons": [
+            "󰤯",
+            "󰤟",
+            "󰤢",
+            "󰤥",
+            "󰤨"
+        ]
+    },
+    // Power/Suspend Button
+    "custom/power": {
+        "format": "",
+        "on-click": "systemctl suspend",
+        "tooltip": "Suspend System"
+    },
+    // Time Module with AM/PM
+    "custom/time": {
+        "interval": 1,
+        "exec": "date +'%I:%M %p'", // Use system date instead of {:%I:%M %p}
+        "tooltip": false
+    },
+    // Date Module (Mon 24-Feb-25 format)
+    "custom/date": {
+        "interval": 60,
+        "exec": "date +\"(%a) %d-%b-%y\"",
+        "tooltip": false
+    },
+    // Workspaces (Screens)
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "hyprctl dispatch workspace {name}"
+    },
+    // System Tray
+    "tray": {
+        "spacing": 10
+    },
+    // CPU Temp
+    "custom/cpu_temp": {
+        "interval": 5,
+        "exec": "sensors | grep 'Tctl' | awk '{print $2}'",
+        "format": " {}",
+        "tooltip": false
+    }
+}
