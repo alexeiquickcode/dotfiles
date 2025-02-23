@@ -155,3 +155,6 @@ function set_aws_profile_based_on_dir() {
 precmd() {
     set_aws_profile_based_on_dir
 }
+
+# SSH
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
