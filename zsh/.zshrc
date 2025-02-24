@@ -158,3 +158,6 @@ precmd() {
 
 # SSH
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+# DataGrip
+export DATAGRIP_JDK="/usr/lib/jvm/java-17-openjdk"

@@ -29,7 +29,7 @@ sudo apt install \
     tmux \
     ripgrep \
     htop \
-    vim \ 
+    vim \
     neovim \
     stow \
     -y
@@ -47,7 +47,7 @@ sudo apt-get install \
 
 # Install GNOME Extensions
 sudo apt install \
-    gnome-shell-extensions \ 
+    gnome-shell-extensions \
     chrome-gnome-shell \
     gnome-tweaks \
     -y

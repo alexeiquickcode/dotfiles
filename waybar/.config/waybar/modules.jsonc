@@ -37,9 +37,10 @@
     },
     // Power/Suspend Button
     "custom/power": {
-        "format": "",
-        "on-click": "systemctl suspend",
-        "tooltip": "Suspend System"
+        "format": " ⏻ ",
+        "on-click": "wlogout -b 6",
+        "tooltip": true,
+        "tooltip-format": "Logout Menu"
     },
     // Time Module with AM/PM
     "custom/time": {
