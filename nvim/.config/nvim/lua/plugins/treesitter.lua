@@ -36,6 +36,7 @@ return {
           "bash",
           "markdown",
           "markdown_inline",
+          "hyprlang",
         },
         indent = { enable = true },
         queries = {
@@ -45,6 +46,10 @@ return {
           ]],
         },
       }
+
+      vim.filetype.add({
+        pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+      })
     end,
   },
 }

@@ -136,7 +136,8 @@ yay -S --noconfirm \
     datagrip \
     pinta \
     libreoffice-fresh \
-    aws-cli-v2
+    aws-cli-v2 \
+    lens-bin
 
 
 # ------------------------------------------------------------------------------
