@@ -84,27 +84,55 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-    config = function()
-      require("codecompanion").setup({
-        adapters = {
-          llama3 = function()
-            return require("codecompanion.adapters").extend("ollama", {
-              name = "tinyllama", -- Give this adapter a different name to differentiate it from the default ollama adapter
-              schema = {
-                model = {
-                  default = "tinyllama:latest",
-                },
-                num_ctx = {
-                  default = 16384,
-                },
-                num_predict = {
-                  default = -1,
-                },
+    opts = {
+      adapters = {
+        ollama_local = function()
+          return require('codecompanion.adapters').extend('ollama', {
+            name = 'ollama_local',
+            env = {
+              -- url = 'http://127.0.0.1:11434',
+              url = 'http://10.43.64.218:80',
+              -- api_key = 'YOUR_OLLAMA_API_KEY', -- Set this if your server requires an API key
+            },
+            -- headers = {
+            --   ['Content-Type'] = 'application/json',
+            --   ['Authorization'] = 'Bearer ${api_key}', -- Include this if an API key is required
+            -- },
+            parameters = {
+              sync = true,
+            },
+            schema = {
+              model = {
+                default = 'tinyllama',
               },
-            })
-          end,
+              num_ctx = {
+                default = 16384,
+              },
+              num_predict = {
+                default = -1,
+              },
+            },
+          })
+        end,
+      },
+      strategies = {
+        chat = {
+          adapter = 'ollama_local',
+          inline = 'ollama_local',
         },
-      })
-    end,
+      },
+      display = {
+        diff = {
+          enabled = true,
+          close_chat_at = 240,
+          layout = 'vertical',
+          opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
+          provider = 'default',
+        },
+      },
+      opts = {
+        log_level = 'DEBUG',
+      },
+    }
   }
 }
