@@ -19,7 +19,7 @@ return {
       { "williamboman/mason-lspconfig.nvim" },
 
       -- Useful status updates for LSP
-      { "j-hui/fidget.nvim", opts = {} },
+      { "j-hui/fidget.nvim",                opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       { "folke/neodev.nvim" },
@@ -29,14 +29,14 @@ return {
       require("mason-lspconfig").setup {
         ensure_installed = {
           "bashls", -- (uses npm)
-          "cssls", -- (uses npm)
-          "html", -- (uses npm)
+          "cssls",  -- (uses npm)
+          "html",   -- (uses npm)
           "lua_ls",
           "jsonls", -- (uses npm)
           "lemminx",
           "marksman",
           "quick_lint_js",
-          "ts_ls", -- (uses npm)
+          "ts_ls",  -- (uses npm)
           "yamlls", -- (uses npm)
           -- 'basedpyright' -- (installed using pip)
         },
@@ -137,15 +137,11 @@ return {
       require("conform").setup {
         formatters_by_ft = {
           lua = { "stylua" },
-          -- Conform will run multiple formatters sequentially
           python = { "isort", "yapf" },
-          -- You can customize some of the format options for the filetype (:help conform.format)
           rust = { "rustfmt", lsp_format = "fallback" },
-          -- Conform will run the first available formatter
           javascript = { "prettierd", "prettier", stop_after_first = true },
         },
         format_on_save = {
-          -- These options will be passed to conform.format()
           timeout_ms = 2500,
           lsp_format = "fallback",
         },
@@ -153,15 +149,13 @@ return {
     end,
   },
 
-  -- Dap Treesitter Parser ?
+  -- Dap Treesitter Parser
   {
     "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
     opts = {
       ensure_installed = {
         "python",
         "javascript",
-        -- add more arguments for adding more debuggers
       },
     },
   },

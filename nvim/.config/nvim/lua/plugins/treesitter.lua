@@ -37,6 +37,7 @@ return {
           "markdown",
           "markdown_inline",
           "hyprlang",
+          "latex",
         },
         indent = { enable = true },
         queries = {

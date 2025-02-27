@@ -80,9 +80,9 @@ return {
 
       bufferline.setup {
         options = {
-          mode = "buffers", -- set to "tabs" to only show tabpages instead
+          mode = "buffers",                               -- set to "tabs" to only show tabpages instead
           style_preset = bufferline.style_preset.minimal, -- or bufferline.style_preset.minimal,
-          themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
+          themable = true,                                -- allows highlight groups to be overriden i.e. sets highlights as default
           -- numbers = "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
           indicator = {
             icon = "▎", -- this should be omitted if indicator style is not 'icon'
@@ -97,10 +97,10 @@ return {
               separator = true,
             },
           },
-          color_icons = true, -- whether or not to add the filetype icon highlights
+          color_icons = true,              -- whether or not to add the filetype icon highlights
           duplicates_across_groups = true, -- whether to consider duplicate paths in different groups as duplicates
-          persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-          move_wraps_at_ends = false, -- whether or not the move command "wraps" at the first or last position
+          persist_buffer_sort = true,      -- whether or not custom sorted buffers should persist
+          move_wraps_at_ends = false,      -- whether or not the move command "wraps" at the first or last position
           -- can also be a table containing 2 custom separators
           -- [focused and unfocused]. eg: { '|', '|' }
           -- separator_style = "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
@@ -137,6 +137,7 @@ return {
     config = function() require("lualine").setup() end,
   },
 
+  -- Renders Markdown
   {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
@@ -145,5 +146,40 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {},
+  },
+
+  -- Displays keymap hints
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {},
+    keys = {
+      {
+        "<leader>?",
+        function() require("which-key").show { global = false } end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  },
+
+  -- TODO comments and notes
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      keywords = {
+        TODO = {
+          icon = " ",
+          color = "#a020f0",       -- Purple
+          alt = { "TASK", "TBD" }, -- alternative keywords mapping to TODO
+          signs = true,
+        },
+      },
+      highlight = {
+        before = "",      -- do not highlight before the keyword
+        keyword = "wide", -- highlight only the keyword (no spaces around it)
+        after = "fg",     -- do not highlight after the keyword
+      },
+    },
   },
 }
