@@ -15,12 +15,12 @@ dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 dapui.setup {
   controls = {
     element = "repl", -- The REPL element in the floating window
-    enabled = true, -- Enables controls
+    enabled = true,   -- Enables controls
   },
   floating = {
     border = "rounded", -- Rounded borders for the floating window
-    max_height = nil, -- No maximum height
-    max_width = nil, -- No maximum width
+    max_height = nil,   -- No maximum height
+    max_width = nil,    -- No maximum width
   },
   element_mappings = {
     stacks = {
@@ -31,10 +31,10 @@ dapui.setup {
   layouts = {
     {
       elements = {
-        "scopes",
-        "breakpoints",
-        "stacks",
-        "watches",
+        -- "scopes",
+        -- "breakpoints",
+        -- "stacks",
+        -- "watches",
       },
       size = 0.25,
       position = "right",
