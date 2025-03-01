@@ -135,24 +135,26 @@ yay -S --noconfirm \
 # ---- House cleaning ----------------------------------------------------------
 # ------------------------------------------------------------------------------
 
+# Only if using just hyprland
+
 # Set system theme dark
-sudo pacman -S gtk3 gtk4 gnome-themes-extra
-gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+# sudo pacman -S gtk3 gtk4 gnome-themes-extra
+# gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 
 # Make /home folders
-mkdir -p ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop 
+# mkdir -p ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop 
 mkdir -p ~/development
 
 # Bluetooth
-sudo pacman -S --needed bluez bluez-utils
+# sudo pacman -S --needed bluez bluez-utils
 sudo systemctl enable --now bluetooth.service
-sudo pacman -S blueman # Bluetooth GUI
+# sudo pacman -S blueman # Bluetooth GUI
 
 # ------------------------------------------------------------------------------
 # ---- VMs ---------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-sudo pacman -S virt-manager \
+sudo pacman -S --noconfirm virt-manager \
     qemu \
     vde2 \
     ebtables \
@@ -165,7 +167,7 @@ sudo systemctl enable libvirtd.servic
 sudo systemctl start libvirtd.service
 
 # For windows
-sudo pacman -S swtpm
+sudo pacman -S --noconfirm swtpm
 # https://insights.ditatompel.com/en/tutorials/run-windows-11-tpm-and-secure-boot-on-kvm/
 
 # ------------------------------------------------------------------------------
