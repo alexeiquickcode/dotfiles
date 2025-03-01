@@ -6,28 +6,20 @@
 
 set -euo pipefail # Exits on errors and treats unset variables as errors
 
-read -p "Enter Python version to install (default: 3.12.9): " PYTHON_VERSION
-PYTHON_VERSION=${PYTHON_VERSION:-3.12.9}
-
-read -p "Enter NVM version to install (default: 0.40.1): " NVM_VERSION
-NVM_VERSION=${NVM_VERSION:-0.40.1}
+# read -p "Enter Python version to install (default: 3.12.9): " PYTHON_VERSION
+# PYTHON_VERSION=${PYTHON_VERSION:-3.12.9}
+#
+# read -p "Enter NVM version to install (default: 0.40.1): " NVM_VERSION
+# NVM_VERSION=${NVM_VERSION:-0.40.1}
 
 # ------------------------------------------------------------------------------
 # ---- Low Level Dependencies --------------------------------------------------
 # ------------------------------------------------------------------------------
 
-# Install yay (AUR helper)
-if ! command -v yay &>/dev/null; then
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si --noconfirm
-    cd .. && rm -rf yay
-fi
-
 # Update system and install essential packages
 sudo pacman -Syu --noconfirm
 
-sudo pacman -S --noconfirm xclip xl-clipboard # To be able to copy and paste to nvim (xclip for x11)
+sudo pacman -S --noconfirm xclip wl-clipboard # To be able to copy and paste to nvim (xclip for x11)
 
 # Install essential packages
 sudo pacman -S --noconfirm \
@@ -36,6 +28,7 @@ sudo pacman -S --noconfirm \
     git \
     lazygit \
     git-delta \
+    unzip \
     zsh \
     openssh \
     tmux \
@@ -50,7 +43,14 @@ sudo pacman -S --noconfirm \
     libffi \
     mariadb-libs \
     python-pyopenssl \
-    ghostty
+    ghostty \
+    firefox
+
+# Install yay (AUR helper)
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si --noconfirm
+cd .. && rm -rf yay
 
 # Set zsh as the default shell
 chsh -s $(which zsh)
@@ -70,11 +70,7 @@ sudo curl -LO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$
 sudo unzip -o ${NERD_FONT}.zip
 sudo rm ${NERD_FONT}.zip
 fc-cache -fv
-
-# Install NVIDIA drivers if applicable
-if lspci | grep -i nvidia; then # TODO: Already installed in arch installer?
-    sudo pacman -S --noconfirm nvidia nvidia-utils
-fi
+cd ~
 
 # Install dependencies for building Python from source
 # TODO: Consolidate with the *essential packages* above
@@ -94,40 +90,19 @@ sudo pacman -S --noconfirm --needed \
     python-build
 
 # ------------------------------------------------------------------------------
-# ---- Programming Languages ---------------------------------------------------
+# ---- Dotfiles ----------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-# Install pyenv
-curl https://pyenv.run | bash
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
+git clone https://github.com/alexeiquickcode/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 
-# Install Python
-pyenv install $PYTHON_VERSION
-pyenv global $PYTHON_VERSION
-
-# Install global Python packages
-pip install basedpyright visidata yapf isort
-
-# Install debugpy for nvim
-sudo pacman -S --noconfirm --needed python-debugpy
-mkdir ~/.virtualenvs
-cd ~/.virtualenvs
-python -m venv debugpy
-debugpy/bin/python -m pip install debugpy
-
-# Install Node.js (via NVM)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-nvm install node
-nvm use node
+rm -f ~/.zshrc # Will install with stow
+stow --ignore='scripts' */
 
 # ------------------------------------------------------------------------------
 # ---- Applications ------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-# Install apps
 yay -S --noconfirm \
     visual-studio-code-bin \
     slack-desktop \
@@ -144,7 +119,7 @@ yay -S --noconfirm \
 # ---- Hyprland ----------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-pacman -S --noconfirm \
+sudo pacman -S --noconfirm \
     waybar \
     rofi \
     thunar \
@@ -155,15 +130,73 @@ pacman -S --noconfirm \
 yay -S --noconfirm \
     swww 
 
+
 # ------------------------------------------------------------------------------
-# ---- Dotfiles ----------------------------------------------------------------
+# ---- House cleaning ----------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-git clone https://github.com/alexeiquickcode/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+# Set system theme dark
+sudo pacman -S gtk3 gtk4 gnome-themes-extra
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 
-rm -f ~/.zshrc # Will install with stow
-stow --ignore='scripts' */
+# Make /home folders
+mkdir -p ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop 
+mkdir -p ~/development
+
+# Bluetooth
+sudo pacman -S --needed bluez bluez-utils
+sudo systemctl enable --now bluetooth.service
+sudo pacman -S blueman # Bluetooth GUI
+
+# ------------------------------------------------------------------------------
+# ---- VMs ---------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+sudo pacman -S virt-manager \
+    qemu \
+    vde2 \
+    ebtables \
+    dnsmasq \
+    bridge-utils \
+    openbsd-netcat \
+    dmidecode
+
+sudo systemctl enable libvirtd.servic
+sudo systemctl start libvirtd.service
+
+# For windows
+sudo pacman -S swtpm
+# https://insights.ditatompel.com/en/tutorials/run-windows-11-tpm-and-secure-boot-on-kvm/
+
+# ------------------------------------------------------------------------------
+# ---- Programming Languages ---------------------------------------------------
+# ------------------------------------------------------------------------------
+
+# Install pyenv
+# curl https://pyenv.run | bash
+# export PATH="$HOME/.pyenv/bin:$PATH"
+# eval "$(pyenv init --path)"
+#
+# # Install Python
+# pyenv install $PYTHON_VERSION
+# pyenv global $PYTHON_VERSION
+#
+# # Install global Python packages
+# pip install basedpyright visidata yapf isort
+#
+# # Install debugpy for nvim
+# sudo pacman -S --noconfirm --needed python-debugpy
+# mkdir ~/.virtualenvs
+# cd ~/.virtualenvs
+# python -m venv debugpy
+# debugpy/bin/python -m pip install debugpy
+#
+# # Install Node.js (via NVM)
+# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
+# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# nvm install node
+# nvm use node
 
 # ------------------------------------------------------------------------------
 

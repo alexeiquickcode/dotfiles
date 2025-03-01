@@ -50,6 +50,12 @@ cd ~/dotfiles
 stow -v */
 ```
 
+## Install Scripts
+
+```bash
+curl -sSL https://raw.githubusercontent.com/alexeiquickcode/dotfiles/main/scripts/fresh-install/archlinux.sh | bash
+```
+
 ## Misc
 
 ### 🔑 Github / Bitbucket SSH Keys Setup
