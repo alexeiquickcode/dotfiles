@@ -7,10 +7,10 @@
 set -euo pipefail # Exits on errors and treats unset variables as errors
 
 # read -p "Enter Python version to install (default: 3.12.9): " PYTHON_VERSION
-# PYTHON_VERSION=${PYTHON_VERSION:-3.12.9}
-#
-# read -p "Enter NVM version to install (default: 0.40.1): " NVM_VERSION
-# NVM_VERSION=${NVM_VERSION:-0.40.1}
+PYTHON_VERSION=${PYTHON_VERSION:-3.12.9}
+
+read -p "Enter NVM version to install (default: 0.40.1): " NVM_VERSION
+NVM_VERSION=${NVM_VERSION:-0.40.1}
 
 # ------------------------------------------------------------------------------
 # ---- Low Level Dependencies --------------------------------------------------
@@ -52,12 +52,9 @@ cd yay
 makepkg -si --noconfirm
 cd .. && rm -rf yay
 
-# Set zsh as the default shell
+# Set zsh as the default shell. TODO: enable no confirm
 chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# Install zsh plugsins 
-yay -S --noconfirm zsh-syntax-highlighting zsh-autosuggestions
 
 # Install starship
 curl -sS https://starship.rs/install.sh | sh -s -- -y
@@ -121,7 +118,6 @@ yay -S --noconfirm \
 
 sudo pacman -S --noconfirm \
     waybar \
-    rofi \
     thunar \
     hypridle \
     xdg-desktop-portal-hyprland \
@@ -129,6 +125,21 @@ sudo pacman -S --noconfirm \
 
 yay -S --noconfirm \
     swww 
+
+# SDDM Theme. TODO: Has confirmation here
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh)"
+
+# wlogout (for hyprland)
+yay -S --noconfirm wlogout
+
+# Screenshots
+sudo pacman -S --noconfirm grim slurp swappy
+
+# Notifications
+sudo pacman -S swaync
+
+# Rofi for wayland
+yay -S rofi-lbonn-wayland-git
 
 
 # ------------------------------------------------------------------------------
@@ -175,30 +186,47 @@ sudo pacman -S --noconfirm swtpm
 # ------------------------------------------------------------------------------
 
 # Install pyenv
-# curl https://pyenv.run | bash
-# export PATH="$HOME/.pyenv/bin:$PATH"
-# eval "$(pyenv init --path)"
-#
-# # Install Python
-# pyenv install $PYTHON_VERSION
-# pyenv global $PYTHON_VERSION
-#
-# # Install global Python packages
-# pip install basedpyright visidata yapf isort
-#
-# # Install debugpy for nvim
-# sudo pacman -S --noconfirm --needed python-debugpy
-# mkdir ~/.virtualenvs
-# cd ~/.virtualenvs
-# python -m venv debugpy
-# debugpy/bin/python -m pip install debugpy
-#
-# # Install Node.js (via NVM)
-# curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
-# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-# nvm install node
-# nvm use node
+curl https://pyenv.run | bash
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+
+# Install Python
+pyenv install $PYTHON_VERSION
+pyenv global $PYTHON_VERSION
+
+# Install global Python packages
+pip install basedpyright visidata yapf isort
+
+# Install debugpy for nvim
+sudo pacman -S --noconfirm --needed python-debugpy
+mkdir ~/.virtualenvs
+cd ~/.virtualenvs
+python -m venv debugpy
+debugpy/bin/python -m pip install debugpy
+cd ~
+
+# Install Node.js (via NVM)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+nvm install node
+nvm use node
+
+# ------------------------------------------------------------------------------
+# ---- Other -------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+# Install zsh plugsins (TODO: check dependencies)
+yay -S --noconfirm zsh-syntax-highlighting zsh-autosuggestions
+
+# Treesitter cli
+yay -S --no-confirm tree-sitter-cli
+
+# Latex
+sudo pacman -S texlive
+
+# For DataGrip
+sudo pacman -S jdk17-openjdk
 
 # ------------------------------------------------------------------------------
 
