@@ -15,7 +15,7 @@
         "interval": 5,
         "format": "{ifname}",
         // Display download/upload speed in MB/s
-        "format-wifi": "{icon} {essid} [{ipaddr}]  {bandwidthDownBytes}  {bandwidthUpBytes}",
+        "format-wifi": "{icon} {essid}  {bandwidthDownBytes}  {bandwidthUpBytes}",
         "format-ethernet": "{icon}  {bandwidthDownBytes}s  {bandwidthUpBytes}s",
         "format-disconnected": "󰌙 Disconnected",
         "format-linked": "󰈁 {ifname} (No IP)",
