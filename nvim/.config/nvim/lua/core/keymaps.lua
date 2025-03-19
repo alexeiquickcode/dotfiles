@@ -63,3 +63,8 @@ vim.keymap.set("n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
 
 -- Record macro
 vim.keymap.set("n", "Q", "q", { noremap = true, silent = true })
+
+-- Spell check
+vim.keymap.set("n", "<leader>ss", function()
+  vim.wo.spell = not vim.wo.spell
+end, { desc = "Toggle spell check" })
