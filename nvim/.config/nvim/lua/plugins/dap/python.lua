@@ -99,6 +99,7 @@ else
   dap.adapters.python = {
     type = "executable",
     command = os.getenv "HOME" .. "/.virtualenvs/debugpy/bin/python",
+    -- command = vim.fn.getcwd() .. "/.venv/bin/python",
     args = { "-m", "debugpy.adapter" },
     enrich_config = enrich_config,
   }

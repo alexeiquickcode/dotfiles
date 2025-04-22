@@ -27,7 +27,10 @@ vim.cmd [[
 
 -- Remove the LSP diagnostics ?
 vim.diagnostic.config {
+  virtual_text = true,
   signs = false,
+  underline = true,
+  update_in_insert = false,
 }
 
 -- vim.cmd [[
