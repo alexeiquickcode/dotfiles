@@ -21,6 +21,12 @@ return {
         filesystem = {
           filtered_items = {
             visible = true, -- Show hidden files
+            hide_by_name = {
+              "__pycache__"
+            },
+            never_show = {
+              "__pycache__"
+            }
           },
           follow_current_file = {
             enable = true, -- to automatically reveal the file in the tree when switching buffers
