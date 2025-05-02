@@ -120,6 +120,7 @@ dap.configurations.python = {
     request = "launch",
     name = "Launch file",
     console = "integratedTerminal",
+    justMyCode = false,
     cwd = vim.fn.getcwd(),
 
     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
