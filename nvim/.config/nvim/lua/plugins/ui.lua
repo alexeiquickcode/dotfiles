@@ -38,6 +38,11 @@ return {
             ["@lsp.type.variable.python"] = { fg = colors.pink, bg = "NONE" },
             ["@lsp.type.type.python"] = { fg = colors.orange, bg = "NONE" },
             ["@f_string_prefix.python"] = { fg = colors.purple, bg = "NONE" },
+
+            -- Rust
+            ["@keyword.modifier.rust"] = { fg = colors.purple, bg = "NONE" },
+            ["@keyword.type.rust"] = { fg = colors.purple, bg = "NONE" },
+            ["@type.rust"] = { fg = colors.orange, bg = "NONE" },
           },
         },
       }
