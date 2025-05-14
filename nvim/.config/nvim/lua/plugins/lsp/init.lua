@@ -40,6 +40,7 @@ return {
           "yamlls", -- (uses npm)
           -- 'basedpyright' -- (installed using pip)
           "rust_analyzer",
+          "dockerls",
         },
       }
 
