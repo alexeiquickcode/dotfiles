@@ -94,6 +94,7 @@ if is_windows then
     type = "executable",
     command = os.getenv "USERPROFILE" .. "\\.virtualenvs\\debugpy\\Scripts\\python.exe",
     args = { "-m", "debugpy.adapter" },
+    enrich_config = enrich_config,
   }
 else
   dap.adapters.python = {
@@ -135,6 +136,30 @@ dap.configurations.python = {
     justMyCode = true,
     envFile = "${workspaceFolder}/environment/.env.uat",
     pythonPath = function() return utils.get_python_executable() end,
+  },
+  {
+    name = "UAT: FastAPI (Port 8000) MonoRepo",
+    type = "python",
+    request = "launch",
+    module = "uvicorn",
+    args = {
+      "main:app",
+      "--access-log",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "8000",
+    },
+    jinja = true,
+    justMyCode = true,
+    cwd = "${workspaceFolder}/jobs/cloudrun/process_images",
+    env = {
+      ENVIRONMENT = "uat",
+      PYTHONPATH = "${workspaceFolder}/jobs",
+    },
+    console = "integratedTerminal",
+    logToFile = true,
+    pythonPath = "${workspaceFolder}/jobs/cloudrun/process_images/.venv/Scripts/python"
   },
   {
     name = "UAT: FastAPI (Port 8000)",
