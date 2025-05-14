@@ -1,6 +1,7 @@
 -- Highlight groups for LSP
 vim.cmd [[
   highlight DiagnosticUnderlineError cterm=underline gui=underline guisp=#ff5638
+  highlight DiagnosticUnderlineHint cterm=underline gui=underline
   highlight DiagnosticUnderlineWarn gui=underline
   highlight NvimDapVirtualText guifg=white gui=italic
 ]]
@@ -27,7 +28,10 @@ vim.cmd [[
 
 -- Remove the LSP diagnostics ?
 vim.diagnostic.config {
+  virtual_text = true,
   signs = false,
+  underline = true,
+  update_in_insert = false,
 }
 
 -- vim.cmd [[

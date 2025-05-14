@@ -39,6 +39,7 @@ return {
           "ts_ls",  -- (uses npm)
           "yamlls", -- (uses npm)
           -- 'basedpyright' -- (installed using pip)
+          "rust_analyzer",
         },
       }
 

@@ -100,6 +100,7 @@ else
   dap.adapters.python = {
     type = "executable",
     command = os.getenv "HOME" .. "/.virtualenvs/debugpy/bin/python",
+    -- command = vim.fn.getcwd() .. "/.venv/bin/python",
     args = { "-m", "debugpy.adapter" },
     enrich_config = enrich_config,
   }
@@ -120,6 +121,7 @@ dap.configurations.python = {
     request = "launch",
     name = "Launch file",
     console = "integratedTerminal",
+    justMyCode = false,
     cwd = vim.fn.getcwd(),
 
     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
