@@ -101,6 +101,7 @@ else
     type = "executable",
     command = os.getenv "HOME" .. "/.virtualenvs/debugpy/bin/python",
     -- command = vim.fn.getcwd() .. "/.venv/bin/python",
+    -- command = vim.fn.getcwd() .. "/jobs/cloudrun/process_images/.venv/bin/python",
     args = { "-m", "debugpy.adapter" },
     enrich_config = enrich_config,
   }
@@ -184,6 +185,46 @@ dap.configurations.python = {
     console = "integratedTerminal",
     logToFile = true,
     pythonPath = function() return utils.get_python_executable() end,
+  },
+  {
+    name = "UAT: FastAPI (Port 8000) CloudRun",
+    type = "python",
+    request = "launch",
+    module = "uvicorn",
+    args = {
+      "main:app",
+      "--access-log",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "8000",
+    },
+    jinja = true,
+    justMyCode = true,
+    cwd = "${workspaceFolder}/jobs/cloudrun/process_images",
+    env = {
+      ENVIRONMENT = "uat",
+      PYTHONPATH = "${workspaceFolder}/jobs", -- To access shared modules
+    },
+    console = "integratedTerminal",
+    logToFile = true,
+    pythonPath = vim.fn.getcwd() .. "/jobs/cloudrun/process_images/.venv/bin/python",
+  },
+  {
+    name = "Current Module VertexAI",
+    type = "python",
+    request = "launch",
+    module = "bert4rec.train",
+    jinja = true,
+    justMyCode = true,
+    cwd = "${workspaceFolder}/jobs/vertexai",
+    env = {
+      ENVIRONMENT = "uat",
+      PYTHONPATH = "${workspaceFolder}/jobs", -- To access shared modules
+    },
+    console = "integratedTerminal",
+    logToFile = true,
+    pythonPath = vim.fn.getcwd() .. "/jobs/vertexai/.venv/bin/python",
   },
   {
     name = "UAT: FastAPI (Port 8001)",

@@ -41,7 +41,7 @@ for _, language in ipairs { "typescript", "javascript" } do
       console = "integratedTerminal",
       outputCapture = "console", -- Need this for console.log to print to the REPL
       -- internalConsoleOptions = "neverOpen",
-      env = { -- doesnt work (this works in vscode)
+      env = {                    -- doesnt work (this works in vscode)
         NODE_ENV = "uat",
       },
       -- console = "externalTerminal", --breakpoints dont work external terminal
@@ -49,6 +49,29 @@ for _, language in ipairs { "typescript", "javascript" } do
       sourceMaps = false,
       args = { "|", "npx", "pino-pretty" },
     },
+    -- {
+    --   type = "pwa-node",
+    --   request = "launch",
+    --   name = "UAT: Node.js (Port 8080) CloudRun",
+    --   runtimeExecutable = "nodemon",
+    --   runtimeArgs = { "--exec", "NODE_ENV=uat node" },
+    --   skipFiles = {
+    --     "<node_internals>/**",
+    --     "${workspaceFolder}/node_modules/**/*.js",
+    --   },
+    --   cwd = "${workspaceFolder}/jobs/cloudrun/process_images_and_text",
+    --   localRoot = "${workspaceFolder}/jobs/cloudrun/process_images_and_text",
+    --   program = "app.js",
+    --   protocol = "inspector",
+    --   restart = true,
+    --   console = "integratedTerminal",
+    --   outputCapture = "console",
+    --   sourceMaps = false,
+    --   env = {
+    --     NODE_ENV = "uat",
+    --   },
+    --   args = {},
+    -- },
     {
       type = "pwa-node",
       request = "launch",

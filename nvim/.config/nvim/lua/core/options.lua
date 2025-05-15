@@ -63,6 +63,12 @@ vim.opt.guifont = "CaskaydiaCove Nerd Font Propo:h10"
 -- Get rid of that swap file
 vim.opt.swapfile = false
 
+-- Set defaults
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+
 -- Set tab size for JavaScript files to 4 spaces
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "json", "jsonc", "xml", "sh", "conf", "css", "scss" },
