@@ -128,17 +128,27 @@ dap.configurations.python = {
     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
     program = "${file}",
     pythonPath = function() return utils.get_python_executable() end,
+    args = {
+      [[
+        {"skus":["X"],"loc_code":"X"}
+      ]]
+    },
   },
   {
     type = "python",
     request = "launch",
     name = "RUN Current Module (UAT)",
     console = "integratedTerminal",
-    module = function() return get_module_from_current_file() end,
+    module = "jobs.vertexai.bert4rec.train",
+    -- module = function() return get_module_from_current_file() end,
     cwd = "${workspaceFolder}",
     justMyCode = true,
     envFile = "${workspaceFolder}/environment/.env.uat",
-    pythonPath = function() return utils.get_python_executable() end,
+    pythonPath = os.getenv "USERPROFILE" .. "\\development\\recommender\\jobs\\vertexai\\.venv\\Scripts\\python",
+    -- pythonPath = function() return utils.get_python_executable() end,
+    env = {
+      PYTHONPATH = os.getenv("USERPROFILE") .. "\\development\\recommender\\jobs"
+    }
   },
   {
     name = "UAT: FastAPI (Port 8000) MonoRepo",

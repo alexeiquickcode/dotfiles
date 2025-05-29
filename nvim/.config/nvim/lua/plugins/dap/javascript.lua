@@ -2,7 +2,8 @@ local dap = require "dap"
 
 -- JS Debug Adapter
 require("dap-vscode-js").setup {
-  debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug",
+  -- debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug",
+  debugger_path = "C:\\Users\\alexei.quick\\vscode-js-debug",
   adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
 }
 
@@ -16,7 +17,7 @@ for _, language in ipairs { "typescript", "javascript" } do
       cwd = "${workspaceFolder}",
       runtimeExecutable = "node",
       env = {
-        NODE_ENV = "development",
+        NODE_ENV = "uat",
       },
     },
     {
