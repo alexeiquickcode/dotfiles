@@ -34,6 +34,15 @@ vim.diagnostic.config {
   update_in_insert = false,
 }
 
+-- Toggle virtual text diagnostics
+local diagnostics_visible = true
+
+vim.keymap.set("n", "<leader>tv", function()
+  diagnostics_visible = not diagnostics_visible
+  vim.diagnostic.config({ virtual_text = diagnostics_visible })
+  print("LSP virtual text " .. (diagnostics_visible and "enabled" or "disabled"))
+end, { desc = "Toggle LSP virtual text" })
+
 -- vim.cmd [[
 --   syn region pythonDocString start=+^\s*"""+ end=+"""+ keepend contains=...
 --   HiLink pythonDocString        Comment
