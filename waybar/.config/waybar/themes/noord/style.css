@@ -23,11 +23,24 @@
  * Colours 
  ******************************************************************************/
 
+/* Theme Colours */
 @define-color bg #2E3440;
 @define-color light #D8DEE9;
-@define-color good #a3be8c;
-@define-color warning #ebcb8b;
-@define-color critical #BF616A;
+@define-color nord_bg #434C5E;
+@define-color nord_bg_blue #546484;
+@define-color nord_light #D8DEE9;
+@define-color nord_light_font #D8DEE9;
+@define-color nord_dark_font #434C5E;
+@define-color nord_red #BF616A;
+@define-color nord_yellow #ebcb8b;
+@define-color nord_green #a3be8c;
+
+/* Class Colours */
+@define-color good @nord_green;
+@define-color warning @nord_yellow;
+@define-color critical @nord_red;
+
+/* Module Colours */
 @define-color workspacesfocused #5E81AC;
 @define-color workspacesunfocused #596A8D;
 @define-color tray @workspacesfocused;
@@ -40,14 +53,7 @@
 @define-color custom-battery #596A8D;
 @define-color date #434C5E;
 @define-color time #434C5E;
-@define-color backlight #434C5E;
-@define-color nord_bg #434C5E;
-@define-color nord_bg_blue #546484;
-@define-color nord_light #D8DEE9;
-@define-color nord_light_font #D8DEE9;
-@define-color nord_dark_font #434C5E;
-@define-color power #BF616A;
-
+@define-color power @nord_red;
 
 /******************************************************************************* 
  * Styles
@@ -78,11 +84,16 @@
 #custom-battery,
 #custom-gpu,
 #tray,
-#backlight,
 #custom-power,
 #custom-cpugovernor {
     padding-left: 0.6em;
     padding-right: 0.6em;
+}
+
+#custom-memory,
+#custom-cpu,
+#custom-gpu {
+    background: @nord_bg
 }
 
 /* Each CRITICAL module that should blink */
@@ -207,10 +218,6 @@
 
 #custom-battery {
     background: @custom-battery;
-}
-
-#backlight {
-    background: @backlight;
 }
 
 #clock {
