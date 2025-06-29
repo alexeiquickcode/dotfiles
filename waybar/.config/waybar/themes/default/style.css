@@ -1,3 +1,13 @@
+@define-color bg rgba(30, 30, 46, 0.9);
+@define-color border rgba(255, 255, 255, 0.1);
+@define-color text #cdd6f4;
+@define-color accent #89b4fa;
+@define-color accent-text #1e1e2e;
+@define-color subtle-bg #313244;
+@define-color warning-bg #f38ba8;
+@define-color warning-hover #ff6b81;
+@define-color hover-bg #f5c2e7;
+
 /* General Bar Style */
 * {
     font-family: "CaskaydiaCove Nerd Font", sans-serif;
@@ -8,9 +18,9 @@
 
 /* Waybar background and text color */
 window#waybar {
-    background-color: rgba(30, 30, 46, 0.9);
-    color: #cdd6f4;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: @bg;
+    color: @text;
+    border-bottom: 1px solid @border;
 }
 
 /* CPU, RAM, and Network Styles */
@@ -20,32 +30,29 @@ window#waybar {
 #network {
     padding: 0 10px;
     border-radius: 5px;
-    background-color: #313244;
-    color: #89b4fa;
+    background-color: @subtle-bg;
+    color: @accent;
 }
 
 /* Power Button */
 #custom-power {
     padding: 0 10px;
-    background-color: #f38ba8;
-    color: #1e1e2e;
+    background-color: @warning-bg;
+    color: @accent-text;
     border-radius: 5px;
+}
+
+#custom-power:hover {
+    background-color: @warning-hover;
 }
 
 /* Date and Time Module Style */
 #custom-date,
-#custom-time {
-    padding: 0 10px;
-    background-color: #89b4fa;
-    color: #1e1e2e;
-    border-radius: 5px;
-}
-
-/* Clock */
+#custom-time,
 #clock {
     padding: 0 10px;
-    background-color: #89b4fa;
-    color: #1e1e2e;
+    background-color: @accent;
+    color: @accent-text;
     border-radius: 5px;
 }
 
@@ -54,34 +61,22 @@ window#waybar {
     padding: 0 5px;
     margin: 2px;
     background-color: transparent;
-    color: #89b4fa;
+    color: @accent;
     border-radius: 5px;
     transition: background-color 0.2s ease;
 }
 
 #workspaces button.active {
-    background-color: #89b4fa;
-    color: #1e1e2e;
+    background-color: @accent;
+    color: @accent-text;
 }
 
 #workspaces button:hover {
-    background-color: #f5c2e7;
-    color: #1e1e2e;
+    background-color: @hover-bg;
+    color: @accent-text;
 }
 
 /* System Tray */
 #tray {
     padding: 0 10px;
-}
-
-/* Power Button Style */
-#custom-power {
-    padding: 0 10px;
-    background-color: #f38ba8;
-    color: #1e1e2e;
-    border-radius: 5px;
-}
-
-#custom-power:hover {
-    background-color: #ff6b81;
 }

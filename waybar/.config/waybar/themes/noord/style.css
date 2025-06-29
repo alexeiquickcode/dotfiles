@@ -1,0 +1,251 @@
+/*******************************************************************************
+ * Animations 
+ ******************************************************************************/
+
+@keyframes blink-critical {
+    0% {
+        color: @light;
+        background-color: @nord_bg;
+    }
+
+    50% {
+        color: @light;
+        background-color: @critical;
+    }
+
+    100% {
+        color: @light;
+        background-color: @nord_bg;
+    }
+}
+
+/*******************************************************************************
+ * Colours 
+ ******************************************************************************/
+
+@define-color bg #2E3440;
+@define-color light #D8DEE9;
+@define-color good #a3be8c;
+@define-color warning #ebcb8b;
+@define-color critical #BF616A;
+@define-color workspacesfocused #5E81AC;
+@define-color workspacesunfocused #596A8D;
+@define-color tray @workspacesfocused;
+@define-color sound #EBCB8B;
+@define-color network #5D7096;
+@define-color memory #596A8D;
+@define-color cpu #596A8D;
+@define-color temp #4D5C78;
+@define-color layout #5e81ac;
+@define-color custom-battery #596A8D;
+@define-color date #434C5E;
+@define-color time #434C5E;
+@define-color backlight #434C5E;
+@define-color nord_bg #434C5E;
+@define-color nord_bg_blue #546484;
+@define-color nord_light #D8DEE9;
+@define-color nord_light_font #D8DEE9;
+@define-color nord_dark_font #434C5E;
+@define-color power #BF616A;
+
+
+/******************************************************************************* 
+ * Styles
+ ******************************************************************************/
+
+/* Componnt styles - reset all styles */
+* {
+    border: none;
+    border-radius: 3px;
+    min-height: 0;
+    margin: 0.2em 0.3em 0.2em 0.3em;
+}
+
+/* The whole bar */
+#waybar {
+    background: @bg;
+    color: @light;
+    font-family: "CaskaydiaCove Nerd Font", "CaskaydiaCove Nerd Font Propo", "CaskaydiaCove NF", sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Each module */
+#clock,
+#network,
+#pulseaudio,
+#custom-cpu,
+#custom-battery,
+#custom-gpu,
+#tray,
+#backlight,
+#custom-power,
+#custom-cpugovernor {
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+}
+
+/* Each CRITICAL module that should blink */
+#custom-memory.critical,
+#custom-cpu.critical,
+#custom-gpu.critical,
+#custom-battery.critical.discharging {
+    animation-name: blink-critical;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+}
+
+/* Each WARNING - static with smooth transitions */
+#network.disconnected,
+#custom-memory.warning,
+#custom-cpu.warning,
+#custom-gpu.warning,
+#custom-battery.warning {
+    background: @warning;
+    color: @nord_dark_font;
+    transition: background-color 3s ease, color 3s ease;
+}
+
+/******************************************************************************* 
+* Workspaces
+*******************************************************************************/
+
+#workspaces,
+#hyprland-workspaces {
+    color: #D8DEE9;
+    margin-right: 10px;
+}
+
+#workspaces button,
+#hyprland-workspaces button {
+    font-weight: bold;
+    /* Somewhy the bar-wide setting is ignored*/
+    padding: 0 0.4em;
+    color: @light;
+    opacity: 0.7;
+    background: @workspacesunfocused;
+    font-size: 1em;
+    border-radius: 3px;
+    margin: 0 0.2em;
+}
+
+#workspaces button:hover,
+#hyprland-workspaces button:hover {
+    background: #ffffff;
+    color: @nord_dark_font;
+    opacity: 0.9;
+}
+
+#workspaces button.focused,
+#hyprland-workspaces button.focused,
+#workspaces button.active,
+#hyprland-workspaces button.active {
+    background: @nord_light;
+    color: @nord_dark_font;
+    opacity: 1;
+    padding: 0 0.4em;
+    border-radius: 3px;
+    margin: 0 0.2em;
+}
+
+#workspaces button.focused:hover,
+#hyprland-workspaces button.focused:hover,
+#workspaces button.active:hover,
+#hyprland-workspaces button.active:hover {
+    background: #E5E9F0;
+    color: @nord_dark_font;
+}
+
+#workspaces button.urgent,
+#hyprland-workspaces button.urgent {
+    border-color: #c9545d;
+    color: #c9545d;
+    opacity: 1;
+    background: @workspacesunfocused;
+}
+
+#window {
+    margin-right: 40px;
+    margin-left: 40px;
+    font-weight: normal;
+}
+
+/******************************************************************************* 
+* Performance
+*******************************************************************************/
+
+#custom-gpu {
+    font-weight: bold;
+    padding-left: 1px;
+}
+
+#network {
+    background: @nord_bg_blue;
+}
+
+#custom-cpugovernor {
+    background-color: @nord_light;
+    color: @nord_dark_font;
+}
+
+/******************************************************************************* 
+* Peripherals
+*******************************************************************************/
+
+#bluetooth {
+    background: @nord_bg_blue;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 0.6em;
+}
+
+#custom-layout {
+    background: @layout;
+}
+
+#custom-battery {
+    background: @custom-battery;
+}
+
+#backlight {
+    background: @backlight;
+}
+
+#clock {
+    background: @nord_bg_blue;
+    color: #D8DEE9;
+}
+
+#clock.date {
+    background: @date;
+}
+
+#pulseaudio {
+    /* Unsused but kept for those who needs it */
+    background: @nord_bg_blue;
+    color: #D8DEE9;
+}
+
+#pulseaudio.muted {
+    background: #BF616A;
+    color: #BF616A;
+}
+
+#pulseaudio.source-muted {
+    background: #D08770;
+    color: #D8DEE9;
+}
+
+#tray {
+    background: #434C5E;
+}
+
+#custom-power {
+    /* This icon seems to not be spaced evenly  */
+    background: @power;
+    padding-left: 9px;
+    padding-right: 13px;
+    border-radius: 3px;
+}

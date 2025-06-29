@@ -35,12 +35,38 @@
             "󰤨"
         ]
     },
+    "pulseaudio": {
+        "scroll-step": 3, // %, can be a float
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        //"format-source": "{volume}% ",
+        //"format-source-muted": "",
+        "format-source": "",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+    },
     // Power/Suspend Button
     "custom/power": {
-        "format": " ⏻ ",
+        "format": "X",
         "on-click": "wlogout -b 6",
         "tooltip": true,
-        "tooltip-format": "Logout Menu"
+        "tooltip-format": "Show logout menu"
     },
     // Time Module with AM/PM
     "custom/time": {
