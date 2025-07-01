@@ -1,6 +1,26 @@
 font-family = "CaskaydiaCove Nerd Font"
-font-size = 10.0
-theme = GitHub-Dark-Default 
+# font-family = "JetBrainsMono Nerd Font"
+font-size = 10.5
+theme = GitHub-Dark-Default
 
+# Remove ALL padding and margins to eliminate black borders
+window-padding-x = 0
+window-padding-y = 0
+window-padding-balance = false
+window-padding-color = extend
 
+# Font and sizing optimizations
+adjust-cell-width = 0
+adjust-cell-height = 0
+adjust-font-baseline = 0
 
+# Window behavior
+window-inherit-working-directory = true
+window-inherit-font-size = true
+
+# Ensure proper terminal sizing
+resize-overlay = never
+resize-overlay-position = center
+
+# Additional padding removal
+unfocused-split-opacity = 1.0
