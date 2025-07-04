@@ -83,6 +83,7 @@
 #custom-cpu,
 #custom-battery,
 #custom-gpu,
+#custom-nightlight,
 #tray,
 #custom-power,
 #custom-cpugovernor {
@@ -93,7 +94,7 @@
 #custom-memory,
 #custom-cpu,
 #custom-gpu {
-    background: @nord_bg
+    background: @nord_bg;
 }
 
 /* Each CRITICAL module that should blink */
@@ -220,6 +221,22 @@
     background: @custom-battery;
 }
 
+#custom-battery.good {
+    background: @good;
+    color: @nord_dark_font;
+}
+
+#custom-battery.warning {
+    background: @warning;
+    color: @nord_dark_font;
+    transition: background-color 1s ease, color 1s ease;
+}
+
+#custom-battery.critical {
+    background: @critical;
+    color: @light;
+}
+
 #clock {
     background: @nord_bg_blue;
     color: #D8DEE9;
@@ -255,4 +272,13 @@
     padding-left: 9px;
     padding-right: 13px;
     border-radius: 3px;
+}
+
+#custom-nightlight {
+    /* This icon seems to not be spaced evenly  */
+    background: @nord_bg;
+    color: @nord_light_font;
+    padding-left: 1px;
+    padding-right: 5px;
+    font-size: 1.1em;
 }

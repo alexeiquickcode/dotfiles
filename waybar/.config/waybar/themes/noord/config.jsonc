@@ -6,19 +6,20 @@
         "clock",
         "custom/battery",
         "custom/cpugovernor",
+        "network",
         "tray",
     ],
     "modules-center": [
         "hyprland/workspaces"
     ],
     "modules-right": [
+        "custom/nightlight",
         "custom/cpu",
         "custom/memory",
         "custom/gpu",
         // "pulseaudio",
         // "bluetooth",
-        "network",
-        "custom/power"
+        "custom/power",
     ],
     "pulseaudio": {
         "scroll-step": 3, // %, can be a float
@@ -55,7 +56,7 @@
         "spacing": 5
     },
     "clock": {
-        "format": " {:%H:%M   %e %b}",
+        "format": " {:%H:%M %e-%b}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "today-format": "<b>{}</b>",
         "on-click": "gnome-calendar"
@@ -79,13 +80,13 @@
     "network": {
         // "interface": "wlan0", // (Optional) To force the use of this interface,
         "format-wifi": "  {essid}",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-linked": "{ifname} (No IP) ",
+        "format-ethernet": "󰈀 {ifname}: {ipaddr}/{cidr}",
+        "format-linked": "{ifname} (No IP)",
         "format-disconnected": "󰌙  Disconnected",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "family": "ipv4",
         "tooltip-format-wifi": "   {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n   {bandwidthDownBytes}    {bandwidthUpBytes}",
-        "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n  {bandwidthDownBytes}  {bandwidthUpBytes}",
+        "tooltip-format-ethernet": "󰈀  {ifname}\nIP: {ipaddr}\n  {bandwidthDownBytes}   {bandwidthUpBytes}",
         "on-click": "nm-connection-editor"
     },
     "custom/weather": {
@@ -129,5 +130,12 @@
     "hyprland/workspaces": {
         "format": "{name}",
         "on-click": "hyprctl dispatch workspace {name}"
+    },
+    "custom/nightlight": {
+        "format": "{}",
+        "exec": "$HOME/.config/waybar/custom_modules/nightlight.sh status",
+        "on-click": "$HOME/.config/waybar/custom_modules/nightlight.sh toggle",
+        "interval": 5,
+        "return-type": "json"
     }
 }

@@ -40,4 +40,4 @@ elif [ "$temperature" -ge 70 ] || [ "$utilization" -ge 75 ]; then
 fi
 
 # Output JSON on a single line with proper escaping and dynamic class
-printf '{"text":"GPU %sGHz | %s°C | %s%%","class":"%s","tooltip":"<b>%s</b>\\nDriver: %s\\n%s Clock: %s MHz\\nGraphics Clock: %s MHz\\nMemory Clock: %s MHz\\nTemperature: %s°C\\nUtilization: %s%%"}\n' "$ghz" "$temperature" "$utilization" "$class" "$deviceinfo" "$driverinfo" "$clock_type" "$clock_to_show" "$graphics_clock" "$memory_clock" "$temperature" "$utilization"
+printf '{"text":"󰮯 %sGHz | %s%% | %s°C","class":"%s","tooltip":"<b>%s</b>\\nDriver: %s\\n%s Clock: %s MHz\\nGraphics Clock: %s MHz\\nMemory Clock: %s MHz\\nTemperature: %s°C\\nUtilization: %s%%"}\n' "$ghz" "$temperature" "$utilization" "$class" "$deviceinfo" "$driverinfo" "$clock_type" "$clock_to_show" "$graphics_clock" "$memory_clock" "$temperature" "$utilization"
