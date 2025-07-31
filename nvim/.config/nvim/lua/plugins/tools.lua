@@ -79,60 +79,71 @@ return {
   },
 
   {
-    "olimorris/codecompanion.nvim",
+    "greggh/claude-code.nvim",
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim", -- Required for git operations
     },
-    opts = {
-      adapters = {
-        ollama_local = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'ollama_local',
-            env = {
-              -- url = 'http://127.0.0.1:11434',
-              url = 'http://10.43.64.218:80',
-              -- api_key = 'YOUR_OLLAMA_API_KEY', -- Set this if your server requires an API key
-            },
-            -- headers = {
-            --   ['Content-Type'] = 'application/json',
-            --   ['Authorization'] = 'Bearer ${api_key}', -- Include this if an API key is required
-            -- },
-            parameters = {
-              sync = true,
-            },
-            schema = {
-              model = {
-                default = 'tinyllama',
-              },
-              num_ctx = {
-                default = 16384,
-              },
-              num_predict = {
-                default = -1,
-              },
-            },
-          })
-        end,
-      },
-      strategies = {
-        chat = {
-          adapter = 'ollama_local',
-          inline = 'ollama_local',
+    config = function()
+      require("claude-code").setup({
+        -- Terminal window settings
+        window = {
+          split_ratio = 0.3,  -- Not used for floating windows
+          position = "float", -- Change this to "float"
+          enter_insert = true,
+          hide_numbers = true,
+          hide_signcolumn = true,
+
+          -- Floating window configuration
+          float = {
+            width = "80%",  -- Adjust as needed
+            height = "80%", -- Adjust as needed
+            row = "center",
+            col = "center",
+            relative = "editor",
+            border = "rounded",
+          },
         },
-      },
-      display = {
-        diff = {
-          enabled = true,
-          close_chat_at = 240,
-          layout = 'vertical',
-          opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
-          provider = 'default',
+        -- File refresh settings
+        refresh = {
+          enable = true,
+          updatetime = 100,
+          timer_interval = 1000,
+          show_notifications = true,
         },
-      },
-      opts = {
-        log_level = 'DEBUG',
-      },
-    }
-  }
+        -- Git project settings
+        git = {
+          use_git_root = true,
+        },
+        -- Shell-specific settings
+        shell = {
+          separator = '&&',
+          pushd_cmd = 'pushd',
+          popd_cmd = 'popd',
+        },
+        -- Command settings
+        command = "claude",
+        command_args = "--editor nvim",
+        -- Command variants
+        command_variants = {
+          continue = "--continue",
+          resume = "--resume",
+          verbose = "--verbose",
+        },
+        -- Keymaps
+        keymaps = {
+          toggle = {
+            normal = "<leader>cc",
+            terminal = "<C-,>",
+            variants = {
+              continue = "<leader>cC",
+              verbose = "<leader>cV",
+            },
+          },
+          window_navigation = true,
+          scrolling = true,
+        }
+      })
+    end
+  },
+
 }

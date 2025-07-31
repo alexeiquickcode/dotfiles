@@ -99,8 +99,8 @@ if is_windows then
 else
   dap.adapters.python = {
     type = "executable",
-    command = os.getenv "HOME" .. "/.virtualenvs/debugpy/bin/python",
-    -- command = vim.fn.getcwd() .. "/.venv/bin/python",
+    -- command = os.getenv "HOME" .. "/.virtualenvs/debugpy/bin/python",
+    command = vim.fn.getcwd() .. "/.venv/bin/python",
     -- command = vim.fn.getcwd() .. "/jobs/cloudrun/process_images/.venv/bin/python",
     args = { "-m", "debugpy.adapter" },
     enrich_config = enrich_config,
@@ -128,11 +128,11 @@ dap.configurations.python = {
     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
     program = "${file}",
     pythonPath = function() return utils.get_python_executable() end,
-    args = {
-      [[
-        {"skus":["X"],"loc_code":"X"}
-      ]]
-    },
+    -- args = {
+    --   [[
+    --     {"skus":["X"],"loc_code":"X"}
+    --   ]]
+    -- },
   },
   {
     type = "python",
@@ -144,11 +144,11 @@ dap.configurations.python = {
     cwd = "${workspaceFolder}",
     justMyCode = true,
     envFile = "${workspaceFolder}/environment/.env.uat",
-    pythonPath = os.getenv "USERPROFILE" .. "\\development\\recommender\\jobs\\vertexai\\.venv\\Scripts\\python",
-    -- pythonPath = function() return utils.get_python_executable() end,
-    env = {
-      PYTHONPATH = os.getenv("USERPROFILE") .. "\\development\\recommender\\jobs"
-    }
+    -- pythonPath = os.getenv "USERPROFILE" .. "\\development\\recommender\\jobs\\vertexai\\.venv\\Scripts\\python",
+    pythonPath = function() return utils.get_python_executable() end,
+    -- env = {
+    --   PYTHONPATH = os.getenv("USERPROFILE") .. "\\development\\recommender\\jobs"
+    -- }
   },
   {
     name = "UAT: FastAPI (Port 8000) MonoRepo",
@@ -194,7 +194,8 @@ dap.configurations.python = {
     },
     console = "integratedTerminal",
     logToFile = true,
-    pythonPath = function() return utils.get_python_executable() end,
+    -- pythonPath = function() return utils.get_python_executable() end,
+    pythonPath = "${workspaceFolder}/.venv/bin/python"
   },
   {
     name = "UAT: FastAPI (Port 8000) CloudRun",

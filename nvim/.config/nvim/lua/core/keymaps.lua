@@ -68,3 +68,6 @@ vim.keymap.set("n", "Q", "q", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ss", function()
   vim.wo.spell = not vim.wo.spell
 end, { desc = "Toggle spell check" })
+
+-- Terminal mode mappings
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })

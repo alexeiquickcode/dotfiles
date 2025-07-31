@@ -1,0 +1,12 @@
+modmap:
+  - name: "Firefox container tab numpad remap"
+    remap:
+      KP1: { with: [C-S], send: C-S-1 }
+      KP2: { with: [C-S], send: C-S-2 }
+      KP3: { with: [C-S], send: C-S-3 }
+      KP4: { with: [C-S], send: C-S-4 }
+      KP5: { with: [C-S], send: C-S-5 }
+      KP6: { with: [C-S], send: C-S-6 }
+      KP7: { with: [C-S], send: C-S-7 }
+      KP8: { with: [C-S], send: C-S-8 }
+      KP9: { with: [C-S], send: C-S-9 }

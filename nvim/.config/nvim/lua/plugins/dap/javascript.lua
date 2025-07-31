@@ -2,8 +2,8 @@ local dap = require "dap"
 
 -- JS Debug Adapter
 require("dap-vscode-js").setup {
-  -- debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug",
-  debugger_path = "C:\\Users\\alexei.quick\\vscode-js-debug",
+  debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug",
+  -- debugger_path = "C:\\Users\\alexei.quick\\vscode-js-debug",
   adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
 }
 
@@ -25,8 +25,8 @@ for _, language in ipairs { "typescript", "javascript" } do
       request = "launch",
       name = "Launch UAT",
       runtimeExecutable = "nodemon", -- Use nodemon for automatic reloads
-      -- runtimeArgs = { "--exec", "NODE_ENV=uat node --require ./fs-test.js" }, TODO: Where should i put this fs test file so its available ???
       runtimeArgs = { "--exec", "NODE_ENV=uat node" },
+      -- runtimeArgs = { "--exec", "NODE_ENV=uat node --require ./fs-test.js" }, TODO: Where should i put this fs test file so its available ???
       -- runtimeArgs = { "--exec", "cross-env NODE_ENV=uat node" }, -- Use for windows
       skipFiles = {
         "<node_internals>/**",

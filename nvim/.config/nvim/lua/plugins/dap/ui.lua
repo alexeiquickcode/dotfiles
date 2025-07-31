@@ -31,10 +31,10 @@ dapui.setup {
   layouts = {
     {
       elements = {
-        -- "scopes",
-        -- "breakpoints",
-        -- "stacks",
-        -- "watches",
+        "scopes",
+        "breakpoints",
+        "stacks",
+        "watches",
       },
       size = 0.25,
       position = "right",
