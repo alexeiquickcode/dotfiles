@@ -70,11 +70,23 @@ return {
       scratch = { enabled = true },
       terminal = { enabled = true },
       dashboard = { example = "doom" },
-      lazygit = {},
+      lazygit = {
+        enabled = true,
+        configure = true,
+        theme_path = vim.fs.normalize(vim.fn.stdpath("cache") .. "/lazygit-theme.yml"),
+        config = {
+          os = { editPreset = "nvim-remote" },
+          gui = { nerdFontsVersion = "3" },
+        },
+        win = {
+          style = "lazygit",
+        }
+      },
     },
     keys = {
       { "<leader>.", function() Snacks.scratch() end,        desc = "Toggle Scratch Buffer" },
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+      { "<leader>lg", function() Snacks.lazygit() end, desc = "Lazygit" },
     },
   },
 
@@ -87,16 +99,16 @@ return {
       require("claude-code").setup({
         -- Terminal window settings
         window = {
-          split_ratio = 0.3,  -- Not used for floating windows
-          position = "float", -- Change this to "float"
+          split_ratio = 0.3,
+          position = "float",
           enter_insert = true,
           hide_numbers = true,
           hide_signcolumn = true,
 
           -- Floating window configuration
           float = {
-            width = "80%",  -- Adjust as needed
-            height = "80%", -- Adjust as needed
+            width = "80%",
+            height = "80%",
             row = "center",
             col = "center",
             relative = "editor",
@@ -122,7 +134,6 @@ return {
         },
         -- Command settings
         command = "claude",
-        command_args = "--editor nvim",
         -- Command variants
         command_variants = {
           continue = "--continue",
