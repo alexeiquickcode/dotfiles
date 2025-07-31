@@ -75,7 +75,6 @@ return {
         configure = true,
         theme_path = vim.fs.normalize(vim.fn.stdpath("cache") .. "/lazygit-theme.yml"),
         config = {
-          os = { editPreset = "nvim-remote" },
           gui = { nerdFontsVersion = "3" },
         },
         win = {

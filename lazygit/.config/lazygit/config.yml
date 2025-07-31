@@ -1,5 +1,21 @@
 git:
   paging:
     colorArg: always
-    pager: delta -s --dark --paging=never 
-
+    pager: delta -s --dark --paging=never
+  commit:
+    signOff: false
+    autoWrapCommitMessage: true
+    autoWrapWidth: 72
+os:
+  editPreset: 'claude-code'
+  edit: 'claude-code --print "Generate a conventional commit message for these changes. Follow the format from CLAUDE.md. Be concise and use present tense." < {{filename}} > {{filename}}'
+  editAtLine: 'claude-code --print "Generate a conventional commit message for these changes. Follow the format from CLAUDE.md. Be concise and use present tense." < {{filename}} > {{filename}}'
+  editAtLineAndWait: 'claude-code --print "Generate a conventional commit message for these changes. Follow the format from CLAUDE.md. Be concise and use present tense." < {{filename}} > {{filename}}'
+  editInTerminal: false
+customCommands:
+  - key: 'G'
+    context: 'files'
+    description: 'Generate AI commit message'
+    command: 'git diff --cached > /tmp/staged_diff.txt && git log --oneline -10 --pretty=format:"%s" > /tmp/recent_commits.txt && echo -e "Recent commits for scope reference:\n$(cat /tmp/recent_commits.txt)\n\nStaged changes:\n$(cat /tmp/staged_diff.txt)" | claude --print "Generate a conventional commit message for these staged changes. ALWAYS include a scope in brackets. Use the format: <type>(scope): <description>. Analyze the recent commits to use consistent scopes. When mentioning specific functions, classes, or files, wrap them in backticks like \`functionName\` or \`file.txt\`. Types: feat, fix, docs, style, refactor, perf, test, chore. Keep description under 50 chars, present tense, lowercase, no period. Only output the commit message, nothing else." > /tmp/commit_msg.txt && git commit --edit -F /tmp/commit_msg.txt'
+    loadingText: 'Generating commit message...'
+    output: terminal
