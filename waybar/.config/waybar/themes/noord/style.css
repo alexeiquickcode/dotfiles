@@ -19,6 +19,26 @@
     }
 }
 
+@keyframes blink-urgent {
+    0% {
+        color: @nord_dark_font;
+        background-color: @workspacesunfocused;
+        border-color: @workspacesunfocused;
+    }
+
+    50% {
+        color: @nord_dark_font;
+        background-color: @nord_yellow;
+        border-color: @nord_yellow;
+    }
+
+    100% {
+        color: @nord_dark_font;
+        background-color: @workspacesunfocused;
+        border-color: @workspacesunfocused;
+    }
+}
+
 /*******************************************************************************
  * Colours 
  ******************************************************************************/
@@ -172,10 +192,12 @@
 
 #workspaces button.urgent,
 #hyprland-workspaces button.urgent {
-    border-color: #c9545d;
-    color: #c9545d;
+    animation-name: blink-urgent;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
     opacity: 1;
-    background: @workspacesunfocused;
 }
 
 #window {

@@ -63,6 +63,9 @@ vim.opt.guifont = "CaskaydiaCove Nerd Font Propo:h10"
 -- Get rid of that swap file
 vim.opt.swapfile = false
 
+-- Auto-reload files when changed externally
+vim.opt.autoread = true
+
 -- Set defaults
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
