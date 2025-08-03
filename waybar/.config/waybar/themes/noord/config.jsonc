@@ -95,7 +95,7 @@
     },
     "custom/battery": {
         "exec": "$HOME/.config/waybar/custom_modules/battery.sh",
-        "interval": 30,
+        "interval": 5,
         "return-type": "json",
         "format": "{}",
         "max-length": 20
