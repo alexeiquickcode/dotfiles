@@ -38,6 +38,7 @@ return {
           "markdown_inline",
           "hyprlang",
           "latex",
+          "groovy",
         },
         indent = { enable = true },
         queries = {
@@ -49,7 +50,13 @@ return {
       }
 
       vim.filetype.add({
-        pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+        pattern = { 
+          [".*/hypr/.*%.conf"] = "hyprlang",
+          ["Jenkinsfile%..*"] = "groovy",
+        },
+        filename = {
+          ["Jenkinsfile"] = "groovy",
+        },
       })
     end,
   },

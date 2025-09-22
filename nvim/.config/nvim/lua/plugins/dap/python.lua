@@ -127,7 +127,8 @@ dap.configurations.python = {
 
     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
     program = "${file}",
-    pythonPath = function() return utils.get_python_executable() end,
+    -- pythonPath = function() return utils.get_python_executable() end,
+    pythonPath = "${workspaceFolder}/.venv/bin/python",
     -- args = {
     --   [[
     --     {"skus":["X"],"loc_code":"X"}
@@ -145,7 +146,9 @@ dap.configurations.python = {
     justMyCode = true,
     envFile = "${workspaceFolder}/environment/.env.uat",
     -- pythonPath = os.getenv "USERPROFILE" .. "\\development\\recommender\\jobs\\vertexai\\.venv\\Scripts\\python",
-    pythonPath = function() return utils.get_python_executable() end,
+    -- pythonPath = function() return utils.get_python_executable() end,
+
+    pythonPath = "${workspaceFolder}/.venv/bin/python",
     -- env = {
     --   PYTHONPATH = os.getenv("USERPROFILE") .. "\\development\\recommender\\jobs"
     -- }

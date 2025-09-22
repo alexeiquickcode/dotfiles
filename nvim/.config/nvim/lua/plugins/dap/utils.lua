@@ -35,11 +35,12 @@ function M.open_vd_under_cursor()
   local filetype = vim.bo.filetype
 
   if filetype == "python" then
-    local csv_path = temp_path .. (is_windows and "\\debug_df.csv" or "/debug_df.csv")
-    local python_cmd = string.format("%s.to_csv(r'%s')", var_name, csv_path)
+    -- Use parquet format which preserves data types
+    local parquet_path = temp_path .. (is_windows and "\\debug_df.parquet" or "/debug_df.parquet")
+    local python_cmd = string.format("%s.to_parquet(r'%s')", var_name, parquet_path)
     dap.repl.execute(python_cmd)
 
-    local terminal_cmd = string.format('%s "%s"', visidata_cli, csv_path)
+    local terminal_cmd = string.format('%s "%s"', visidata_cli, parquet_path)
     Snacks.terminal(terminal_cmd, opts)
   elseif filetype == "javascript" or filetype == "typescript" then
     dap.repl.execute("testFn(" .. var_name .. ")")
