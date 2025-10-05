@@ -41,6 +41,7 @@ return {
           -- 'basedpyright' -- (installed using pip)
           "rust_analyzer",
           "dockerls",
+          "terraformls",
         },
       }
 
@@ -56,6 +57,14 @@ return {
           lspconfig[server_name].setup {
             on_attach = lsp_attach,
             capabilities = lsp_capabilities,
+          }
+        end,
+        -- Terraform LSP with custom root pattern
+        terraformls = function()
+          lspconfig.terraformls.setup {
+            on_attach = lsp_attach,
+            capabilities = lsp_capabilities,
+            root_dir = lspconfig.util.root_pattern(".terraform", ".git", "*.tf"),
           }
         end,
       }
