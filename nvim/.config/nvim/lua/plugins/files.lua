@@ -64,7 +64,9 @@ return {
       telescope.load_extension "dap"
 
       vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { desc = "Find files" })
-      vim.keymap.set("n", "<leader>fo", ":Telescope oldfiles<CR>", { desc = "Find old files" })
+      vim.keymap.set("n", "<leader>fo", function()
+        require('telescope.builtin').oldfiles({ cwd = vim.fn.getcwd() })
+      end, { desc = "Find old files in cwd" })
       vim.keymap.set("n", "<leader>fw", ":Telescope live_grep<CR>", { desc = "Find word" })
       vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "Find buffer" })
       vim.keymap.set("n", "<leader>fp", ":Telescope projects<CR>", { desc = "Find project" })
