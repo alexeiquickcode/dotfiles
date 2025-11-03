@@ -24,3 +24,23 @@ else
   echo "Error: Neither wpctl nor pactl is installed."
   exit 1
 fi
+
+# Get current volume and mute status
+if command -v wpctl &>/dev/null; then
+  VOLUME=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100)}')
+  MUTED=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -o "MUTED")
+else
+  VOLUME=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d+%' | head -1 | tr -d '%')
+  MUTED=$(pactl get-sink-mute @DEFAULT_SINK@ | grep -o "yes")
+fi
+
+# Send notification
+if [ -n "$MUTED" ]; then
+  notify-send -h string:x-canonical-private-synchronous:volume \
+              -h int:value:0 \
+              -u low "Volume Muted" ""
+else
+  notify-send -h string:x-canonical-private-synchronous:volume \
+              -h int:value:$VOLUME \
+              -u low "Volume: ${VOLUME}%" ""
+fi

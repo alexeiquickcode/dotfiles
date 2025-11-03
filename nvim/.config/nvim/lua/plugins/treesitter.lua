@@ -39,6 +39,8 @@ return {
           "hyprlang",
           "latex",
           "groovy",
+          "terraform",
+          "hcl",
         },
         indent = { enable = true },
         queries = {

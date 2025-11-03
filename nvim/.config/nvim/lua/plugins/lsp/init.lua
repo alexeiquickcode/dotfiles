@@ -61,9 +61,13 @@ return {
         end,
         -- Terraform LSP with custom root pattern
         terraformls = function()
+          local terraform_capabilities = vim.deepcopy(lsp_capabilities)
+          -- Disable semantic tokens to let Treesitter handle syntax highlighting
+          terraform_capabilities.textDocument.semanticTokens = vim.NIL
+
           lspconfig.terraformls.setup {
             on_attach = lsp_attach,
-            capabilities = lsp_capabilities,
+            capabilities = terraform_capabilities,
             root_dir = lspconfig.util.root_pattern(".terraform", ".git", "*.tf"),
           }
         end,
