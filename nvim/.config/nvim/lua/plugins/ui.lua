@@ -14,7 +14,7 @@ return {
       }
 
       require("astrotheme").setup {
-        palette = { "astrodark" },
+        palette = { "astrodark", "astrolight" },
         highlights = {
           astrodark = {
             ["DiagnosticError"] = { fg = colors.red, bg = "NONE", bold = true },

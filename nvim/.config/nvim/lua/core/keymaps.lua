@@ -69,5 +69,15 @@ vim.keymap.set("n", "<leader>ss", function()
   vim.wo.spell = not vim.wo.spell
 end, { desc = "Toggle spell check" })
 
+-- Theme toggle
+vim.keymap.set("n", "<leader>st", function()
+  local current = vim.g.colors_name
+  if current == "astrodark" then
+    vim.cmd "colorscheme astrolight"
+  else
+    vim.cmd "colorscheme astrodark"
+  end
+end, { desc = "Toggle theme (dark/light)" })
+
 -- Terminal mode mappings
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Exit terminal mode" })
