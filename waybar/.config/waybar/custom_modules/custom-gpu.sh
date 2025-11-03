@@ -1,5 +1,42 @@
 #!/bin/bash
 
+# Flag file to track if monitoring is disabled
+DISABLED_FLAG="/tmp/gpu-monitor-disabled"
+
+# Handle toggle command
+if [ "$1" = "toggle" ]; then
+    if [ -f "$DISABLED_FLAG" ]; then
+        rm "$DISABLED_FLAG"
+        notify-send "GPU Monitor" "Monitoring enabled" -t 2000
+    else
+        touch "$DISABLED_FLAG"
+        notify-send "GPU Monitor" "Monitoring disabled" -t 2000
+    fi
+    exit 0
+fi
+
+# Check if monitoring is disabled
+if [ -f "$DISABLED_FLAG" ]; then
+    # Check GPU state even when disabled
+    runtime_status=$(cat /sys/bus/pci/devices/0000:02:00.0/power/runtime_status 2>/dev/null)
+    if [ "$runtime_status" = "suspended" ]; then
+        printf '{"text":"󰮯 Disabled (Suspended)","class":"disabled","tooltip":"GPU monitoring disabled\\nGPU is currently suspended\\nClick to re-enable monitoring"}\n'
+    else
+        printf '{"text":"󰮯 Disabled (Active)","class":"disabled","tooltip":"GPU monitoring disabled\\nGPU is currently active\\nClick to re-enable monitoring"}\n'
+    fi
+    exit 0
+fi
+
+# Check if GPU is suspended - don't wake it up!
+runtime_status=$(cat /sys/bus/pci/devices/0000:02:00.0/power/runtime_status 2>/dev/null)
+
+if [ "$runtime_status" = "suspended" ]; then
+    # GPU is suspended, show that instead of waking it
+    printf '{"text":"󰮯 Suspended","class":"suspended","tooltip":"GPU is in low-power suspended state\\nWill wake automatically when needed"}\n'
+    exit 0
+fi
+
+# GPU is active, proceed with normal monitoring
 # Get number of GPUs
 gpu_count=$(nvidia-smi --list-gpus | wc -l)
 

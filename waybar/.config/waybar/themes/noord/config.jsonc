@@ -108,7 +108,7 @@
         "tooltip": "{tooltip}",
         // "max-length": 19,
         // "min-length": 19,
-        "on-click": "powerupp"
+        "on-click": "$HOME/.config/waybar/custom_modules/custom-gpu.sh toggle"
     },
     "custom/cpugovernor": {
         "format": "{icon}",
