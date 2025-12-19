@@ -26,6 +26,12 @@ return {
     },
     config = function()
       require("mason").setup()
+      local lspconfig = require "lspconfig"
+      local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lsp_attach = function(client, bufnr)
+        -- Create your keybindings here...
+      end
+
       require("mason-lspconfig").setup {
         ensure_installed = {
           "bashls", -- (uses npm)
@@ -43,34 +49,26 @@ return {
           "dockerls",
           "terraformls",
         },
-      }
+        handlers = {
+          function(server_name)
+            lspconfig[server_name].setup {
+              on_attach = lsp_attach,
+              capabilities = lsp_capabilities,
+            }
+          end,
+          -- Terraform LSP with custom root pattern
+          terraformls = function()
+            local terraform_capabilities = vim.deepcopy(lsp_capabilities)
+            -- Disable semantic tokens to let Treesitter handle syntax highlighting
+            terraform_capabilities.textDocument.semanticTokens = vim.NIL
 
-      local lspconfig = require "lspconfig"
-      local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lsp_attach = function(client, bufnr)
-        -- Create your keybindings here...
-      end
-
-      -- Call setup on each LSP server
-      require("mason-lspconfig").setup_handlers {
-        function(server_name)
-          lspconfig[server_name].setup {
-            on_attach = lsp_attach,
-            capabilities = lsp_capabilities,
-          }
-        end,
-        -- Terraform LSP with custom root pattern
-        terraformls = function()
-          local terraform_capabilities = vim.deepcopy(lsp_capabilities)
-          -- Disable semantic tokens to let Treesitter handle syntax highlighting
-          terraform_capabilities.textDocument.semanticTokens = vim.NIL
-
-          lspconfig.terraformls.setup {
-            on_attach = lsp_attach,
-            capabilities = terraform_capabilities,
-            root_dir = lspconfig.util.root_pattern(".terraform", ".git", "*.tf"),
-          }
-        end,
+            lspconfig.terraformls.setup {
+              on_attach = lsp_attach,
+              capabilities = terraform_capabilities,
+              root_dir = lspconfig.util.root_pattern(".terraform", ".git", "*.tf"),
+            }
+          end,
+        },
       }
 
       -- Lua LSP settings

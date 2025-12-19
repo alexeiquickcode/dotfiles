@@ -17,6 +17,15 @@ require "utils"
 -- Set python interpreter
 vim.g.python3_host_prog = require("utils").get_python_executable()
 require "core.options"
+
+-- Suppress lspconfig deprecation warning for vim.lsp.config migration
+local orig_deprecate = vim.deprecate
+vim.deprecate = function(name, alternative, version, plugin, backtrace)
+  if plugin ~= "nvim-lspconfig" or not name:find("lspconfig") then
+    return orig_deprecate(name, alternative, version, plugin, backtrace)
+  end
+end
+
 require("lazy").setup "plugins"
 
 -- Set the theme and highlight groups. TODO: Maybe move this to UI

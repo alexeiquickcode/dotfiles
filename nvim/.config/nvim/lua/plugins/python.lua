@@ -13,7 +13,6 @@ return {
     },
     -- event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
     lazy = false,
-    branch = "regexp", -- NOTE: New version
     keys = {
       { "<leader>vs", "<cmd>VenvSelect<cr>" },
       { "<leader>vc", "<cmd>VenvSelectCached<cr>" },

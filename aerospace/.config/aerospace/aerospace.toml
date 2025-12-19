@@ -10,8 +10,10 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # Mouse follows focus
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-# Workspace to monitor assignment - external monitor always on workspace 10
+# Workspace to monitor assignment
 [workspace-to-monitor-force-assignment]
+2 = '^DELL U2723QE \(2\)$'  # Left monitor
+3 = '^DELL U2723QE \(1\)$'  # Right monitor
 10 = ['DELL U3824DW', 'MAG 275UD E14']
 
 # Gaps
@@ -39,9 +41,9 @@ cmd-shift-k = 'move up'
 cmd-shift-l = 'move right'
 
 # Layout
-cmd-s = 'layout v_accordion'
-cmd-w = 'layout h_accordion'
-cmd-e = 'layout tiles horizontal vertical'
+ctrl-alt-s = 'layout v_accordion'
+ctrl-alt-w = 'layout h_accordion'
+ctrl-alt-e = 'layout tiles horizontal vertical'
 cmd-shift-space = 'layout floating tiling'
 
 # Terminal - open new Ghostty window

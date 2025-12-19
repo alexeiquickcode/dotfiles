@@ -37,7 +37,7 @@ return {
           "markdown",
           "markdown_inline",
           "hyprlang",
-          "latex",
+          -- "latex",
           "groovy",
           "terraform",
           "hcl",
