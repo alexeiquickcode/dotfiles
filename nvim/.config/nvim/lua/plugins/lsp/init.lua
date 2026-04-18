@@ -32,22 +32,45 @@ return {
         -- Create your keybindings here...
       end
 
+      -- Configure basedpyright for monorepo (uses .git as root)
+      vim.lsp.config("basedpyright", {
+        root_markers = { ".git" },
+        settings = {
+          basedpyright = {
+            analysis = {
+              typeCheckingMode = "standard",
+              diagnosticSeverityOverrides = {
+                reportAny = "none",
+                reportExplicitAny = "none",
+                reportUnknownMemberType = "none",
+                reportUnknownArgumentType = "none",
+                reportUnknownVariableType = "none",
+                reportUnknownParameterType = "none",
+                reportMissingTypeArgument = "none",
+                reportUnusedImport = "none",
+              },
+            },
+          },
+        },
+      })
+
       require("mason-lspconfig").setup {
         ensure_installed = {
-          "bashls", -- (uses npm)
-          "cssls",  -- (uses npm)
-          "html",   -- (uses npm)
+          "bashls",
+          "cssls",
+          "html",
           "lua_ls",
-          "jsonls", -- (uses npm)
+          "jsonls",
           "lemminx",
           "marksman",
           "quick_lint_js",
-          "ts_ls",  -- (uses npm)
-          "yamlls", -- (uses npm)
-          -- 'basedpyright' -- (installed using pip)
+          "ts_ls",
+          "yamlls",
+          "basedpyright",
           "rust_analyzer",
           "dockerls",
           "terraformls",
+          "gh_actions_ls",
         },
         handlers = {
           function(server_name)
@@ -79,18 +102,6 @@ return {
               -- Get the language server to recognize the `vim` global
               globals = { "vim" },
             },
-          },
-        },
-      }
-
-      -- BasedPyright LSP
-      lspconfig.basedpyright.setup {
-        capabilities = capabilities,
-        settings = {
-          basedpyright = {
-            typeCheckingMode = "standard",
-            reportUnusedImport = "none",
-            reportDuplicateVariableDefinition = "none",
           },
         },
       }

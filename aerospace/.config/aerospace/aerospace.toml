@@ -10,6 +10,9 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # Mouse follows focus
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
+# Refresh borders on focus change
+on-focus-changed = ['exec-and-forget borders']
+
 # Workspace to monitor assignment
 [workspace-to-monitor-force-assignment]
 2 = '^DELL U2723QE \(2\)$'  # Left monitor

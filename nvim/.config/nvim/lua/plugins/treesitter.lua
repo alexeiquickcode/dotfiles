@@ -51,13 +51,21 @@ return {
         },
       }
 
+      -- Use python parser for starlark (Pants BUILD files) - starlark parser has ABI issues with nvim 0.11
+      vim.treesitter.language.register("python", "starlark")
+
       vim.filetype.add({
-        pattern = { 
+        pattern = {
           [".*/hypr/.*%.conf"] = "hyprlang",
           ["Jenkinsfile%..*"] = "groovy",
         },
         filename = {
           ["Jenkinsfile"] = "groovy",
+          ["BUILD"] = "starlark",
+          ["BUILD.pants"] = "starlark",
+        },
+        extension = {
+          ["star"] = "starlark",
         },
       })
     end,
