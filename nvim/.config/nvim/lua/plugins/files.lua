@@ -38,7 +38,7 @@ return {
 
   {
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.8",
+    branch = "master",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "mfussenegger/nvim-dap",
@@ -50,6 +50,10 @@ return {
 
       telescope.setup {
         defaults = {
+          preview = {
+            treesitter = true,
+            timeout = false,
+          },
           mappings = {
             i = {
               ["<C-u>"] = false,

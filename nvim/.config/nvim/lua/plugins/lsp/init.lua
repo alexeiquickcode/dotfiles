@@ -32,9 +32,9 @@ return {
         -- Create your keybindings here...
       end
 
-      -- Configure basedpyright for monorepo (uses .git as root)
+      -- Configure basedpyright - prioritize pyrightconfig.json for per-project configs
       vim.lsp.config("basedpyright", {
-        root_markers = { ".git" },
+        root_markers = { "pyrightconfig.json", "pyproject.toml", ".git" },
         settings = {
           basedpyright = {
             analysis = {

@@ -4,19 +4,34 @@ return {
     "LiadOz/nvim-dap-repl-highlights",
     dependencies = { "mfussenegger/nvim-dap" },
     config = function() require("nvim-dap-repl-highlights").setup() end,
-    before = "nvim-treesitter/nvim-treesitter", -- Load before treesitter
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     build = ":TSUpdate",
     config = function()
-      local config = require "nvim-treesitter.configs"
-      config.setup {
+      vim.filetype.add({
+        pattern = {
+          [".*/hypr/.*%.conf"] = "hyprlang",
+          ["Jenkinsfile%..*"] = "groovy",
+        },
+        filename = {
+          ["Jenkinsfile"] = "groovy",
+          ["BUILD"] = "starlark",
+          ["BUILD.pants"] = "starlark",
+        },
+        extension = {
+          ["star"] = "starlark",
+        },
+      })
+
+      require("nvim-treesitter.configs").setup({
         auto_install = true,
         highlight = { enable = true },
         ensure_installed = {
           "lua",
           "vim",
+          "vimdoc",
           "typescript",
           "javascript",
           "tsx",
@@ -37,37 +52,13 @@ return {
           "markdown",
           "markdown_inline",
           "hyprlang",
-          -- "latex",
           "groovy",
           "terraform",
           "hcl",
         },
-        indent = { enable = true },
-        queries = {
-          python = [[
-            (module
-              (string) @docstring)
-          ]],
-        },
-      }
-
-      -- Use python parser for starlark (Pants BUILD files) - starlark parser has ABI issues with nvim 0.11
-      vim.treesitter.language.register("python", "starlark")
-
-      vim.filetype.add({
-        pattern = {
-          [".*/hypr/.*%.conf"] = "hyprlang",
-          ["Jenkinsfile%..*"] = "groovy",
-        },
-        filename = {
-          ["Jenkinsfile"] = "groovy",
-          ["BUILD"] = "starlark",
-          ["BUILD.pants"] = "starlark",
-        },
-        extension = {
-          ["star"] = "starlark",
-        },
       })
+
+      vim.treesitter.language.register("python", "starlark")
     end,
   },
 }

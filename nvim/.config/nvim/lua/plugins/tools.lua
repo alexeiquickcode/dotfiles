@@ -70,6 +70,7 @@ return {
       scratch = { enabled = true },
       terminal = { enabled = true },
       dashboard = { example = "doom" },
+      picker = { enabled = true },
       lazygit = {
         enabled = true,
         configure = true,
@@ -87,6 +88,71 @@ return {
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>lg", function() Snacks.lazygit() end, desc = "Lazygit" },
     },
+  },
+
+  {
+    'chipsenkbeil/distant.nvim',
+    branch = 'v0.3',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    cmd = { 'DistantConnect', 'DistantLaunch', 'DistantOpen' },
+    keys = {
+      {
+        '<leader>ds',
+        function()
+          -- Edit this list to match your ~/.ssh/config hosts (or full ssh://user@host URIs)
+          local hosts = {
+            { name = 'aq-main', destination = 'ssh://sagemaker-user@aq-main' },
+            { name = 'aq-gpu',  destination = 'ssh://sagemaker-user@aq-gpu' },
+          }
+
+          local pickers = require 'telescope.pickers'
+          local finders = require 'telescope.finders'
+          local conf = require('telescope.config').values
+          local actions = require 'telescope.actions'
+          local action_state = require 'telescope.actions.state'
+
+          pickers.new({}, {
+            prompt_title = 'Distant: connect',
+            finder = finders.new_table {
+              results = hosts,
+              entry_maker = function(h)
+                return {
+                  value = h,
+                  display = string.format('%-24s %s', h.name, h.destination),
+                  ordinal = h.name .. ' ' .. h.destination,
+                }
+              end,
+            },
+            sorter = conf.generic_sorter {},
+            attach_mappings = function(bufnr, _)
+              actions.select_default:replace(function()
+                local sel = action_state.get_selected_entry()
+                actions.close(bufnr)
+                if not sel then return end
+                require('distant'):connect({
+                  destination = sel.value.destination,
+                  -- Remote doesn't have distant on non-interactive SSH PATH; give absolute path.
+                  options = 'distant.bin="/home/sagemaker-user/.local/bin/distant"',
+                }, function(err, client)
+                  vim.schedule(function()
+                    if err then
+                      vim.notify('Distant connect failed: ' .. tostring(err), vim.log.levels.ERROR)
+                      return
+                    end
+                    vim.notify('Distant connected to ' .. sel.value.destination)
+                  end)
+                end)
+              end)
+              return true
+            end,
+          }):find()
+        end,
+        desc = 'Distant: select SSH host',
+      },
+    },
+    config = function()
+      require('distant'):setup()
+    end,
   },
 
   {
